@@ -63,26 +63,6 @@ namespace CSC578_Project.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Button___Play_Game {
-            get {
-                object obj = ResourceManager.GetObject("Button - Play Game", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Button___Quit {
-            get {
-                object obj = ResourceManager.GetObject("Button - Quit", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Green_Gradient {
             get {
                 object obj = ResourceManager.GetObject("Green Gradient", resourceCulture);

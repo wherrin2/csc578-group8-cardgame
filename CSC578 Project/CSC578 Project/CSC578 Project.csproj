@@ -33,9 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MaterialSkin">
-      <HintPath>..\..\..\..\..\Source\Repos\MaterialSkin\MaterialSkin\bin\Release\MaterialSkin.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -55,6 +52,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AvailableGames.cs" />
     <Compile Include="LoadingScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,16 +97,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Button - Play Game.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Loading Screen.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Green Gradient.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Button - Quit.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
