@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace CSC578_Project
 {
-    public partial class Form1 : Form
-    {
-        public Form1()
+    public partial class MainGamesMenu : Form
+    {    
+        public MainGamesMenu()
         {
             InitializeComponent();
+        }
+
+        private void btnQuit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
