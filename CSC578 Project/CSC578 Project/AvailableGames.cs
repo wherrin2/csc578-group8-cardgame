@@ -31,13 +31,13 @@ namespace CSC578_Project
         {
             if (Directory.Exists(path + gamesDirectory))
             {
-                var extensions = new List<string> { ".rules", ".cards", ".board", ".players" };
+                var extensions = new string[] { ".rules", ".cards", ".board", ".players" };
                 var filesWithExtension = Directory.GetFiles(path + gamesDirectory, "*" + extensions[0], SearchOption.AllDirectories);
                 foreach (var file in filesWithExtension)
                 {
                     var fileNameNoExtension = Path.GetFileNameWithoutExtension(file);
                     var validGame = false;
-                    for (int i = 1; i < extensions.Count; i++)
+                    for (int i = 1; i < extensions.Length; i++)
                     {
                         validGame = File.Exists(path + gamesDirectory + fileNameNoExtension + extensions[i]);
                         if (!validGame)

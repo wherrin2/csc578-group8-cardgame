@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CSC578_Project
 {
     public partial class MainGamesMenu : Form
-    {    
+    {
+        private string selection;
         public MainGamesMenu()
         {
             InitializeComponent();
@@ -25,7 +19,7 @@ namespace CSC578_Project
             for (int i = 0; i < games.Count; i++)
             {
                 var item = new ListViewItem(new[] { (i + 1).ToString(), AvailableGames.GameNameWithoutExtension(games[i]), "?" });
-                item.Tag = games[0];
+                item.Tag = games[i];
                 lvwListGames.Items.Add(item);
             }
 
@@ -39,6 +33,7 @@ namespace CSC578_Project
         private void lvwListGames_ItemActivate(object sender, EventArgs e)
         {
             btnPlay.Enabled = true;
+            selection = lvwListGames.SelectedItems[0].Tag.ToString();
         }
     }
 }
