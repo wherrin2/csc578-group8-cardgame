@@ -2,10 +2,9 @@
 
 namespace CSC578_Project
 {
-    class MoveableObject : DrawableObject
+    class MovableObject : DrawableObject
     {
         public bool Visible { get; set; } = true;
-        public bool IsFrontImage { get; set; }
         public bool IsSelected { get; set; }
 
         public bool Move(Point point, int requesterID)

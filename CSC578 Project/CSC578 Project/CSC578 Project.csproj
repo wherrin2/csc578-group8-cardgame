@@ -70,7 +70,7 @@
     <Compile Include="MainGamesMenu.Designer.cs">
       <DependentUpon>MainGamesMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="MoveableObject.cs" />
+    <Compile Include="MovableObject.cs" />
     <Compile Include="PlayingSurface.cs">
       <SubType>Form</SubType>
     </Compile>

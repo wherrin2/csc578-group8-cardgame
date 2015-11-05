@@ -16,6 +16,8 @@ namespace CSC578_Project
         //todo implement asset manager
         //todo check boundaries
         //todo implement player turn logic with appropriate IDs
+        //todo implement surface manager that orders layers
+
         private bool leftClicked;
         private Point mouseClickPosition;
 
@@ -25,13 +27,17 @@ namespace CSC578_Project
         }
         public void AddGameObject(GameObject gameObject)
         {
-            if (typeof(MoveableObject) == gameObject.GetType())
+            var type = gameObject.GetType();
+            if (typeof(MovableObject) == type)
             {
-                CreateMoveableObject((MoveableObject)gameObject);
+                CreateMovableObject((MovableObject)gameObject);
             }
-            else if (typeof(BoundaryObject) == gameObject.GetType())
+            else if (typeof(BoundaryObject) == type)
             {
                 CreateBoundaryObject((BoundaryObject)gameObject);
+            } else if (typeof(DrawableObject) == type)
+            {
+                CreateDrawableObject((DrawableObject)gameObject);
             }
 
         }
@@ -44,20 +50,28 @@ namespace CSC578_Project
             }
         }
 
-        private void CreateMoveableObject(MoveableObject moveable)
+        private void CreateMovableObject(MovableObject movable)
         {
-            var pictureBox = new PictureBox
-            {
-                Image = moveable.IsFrontImage ? moveable.FrontImage : moveable.BackImage,
-                Height = moveable.Height,
-                Width = moveable.Height,
-                Location = moveable.Position
-            };
-   
-            pictureBox.MouseDown += Moveable_MouseDown;
-            pictureBox.MouseUp += Moveable_MouseUp;
-            pictureBox.Tag = moveable;
+            var pictureBox = CreatePictureBox(movable);
+            pictureBox.MouseDown += Movable_MouseDown;
+            pictureBox.MouseUp += Movable_MouseUp;
+            pictureBox.Tag = movable;
+            
             this.Controls.Add(pictureBox);
+        }
+        private void CreateDrawableObject(DrawableObject drawable)
+        {
+            var pictureBox = CreatePictureBox(drawable);
+
+            if (drawable.IsBackgroundImage)
+            {
+                this.BackgroundImage = drawable.IsFrontImage ? drawable.FrontImage : drawable.BackImage;
+            }
+            else
+            {
+                this.Controls.Add(pictureBox);
+            }
+           
         }
   
         private void DrawBoundary(BoundaryObject boundary)
@@ -75,41 +89,56 @@ namespace CSC578_Project
             graphics.Dispose();
         }
 
-        private void Moveable_MouseDown(object sender, MouseEventArgs e)
+        private PictureBox CreatePictureBox(DrawableObject drawable)
+        {
+            var pictureBox = new PictureBox
+            {
+                Height = drawable.Height,
+                Width = drawable.Width,
+                Location = drawable.Position,
+                BackColor = Color.Transparent,
+                SizeMode =  PictureBoxSizeMode.StretchImage,
+                
+                Image = drawable.IsFrontImage ? drawable.FrontImage : drawable.BackImage
+            };
+            return pictureBox;
+        }
+        private void Movable_MouseDown(object sender, MouseEventArgs e)
         {
             //fix ID in isSelectable - should be current player's ID
             var pictureBox = (PictureBox)sender;
-            var moveable = (MoveableObject)pictureBox.Tag;
-            if (moveable.IsSelectable(-1))
+            var movable = (MovableObject)pictureBox.Tag;
+            if (movable.IsSelectable(-1))
             {
                 pictureBox.BringToFront();
-                moveable.IsSelected = true;
+                movable.IsSelected = true;
                 
                 leftClicked = e.Button == MouseButtons.Left;
-                pictureBox.MouseMove += Moveable_MouseMove;
+                pictureBox.MouseMove += Movable_MouseMove;
                 mouseClickPosition = e.Location;
             }
             
         }
-        private void Moveable_MouseUp(object sender, MouseEventArgs e)
+        private void Movable_MouseUp(object sender, MouseEventArgs e)
         {
             var pictureBox = (PictureBox)sender;
-            var moveable = (MoveableObject)pictureBox.Tag;
-            moveable.IsSelected = false;
+            var movable = (MovableObject)pictureBox.Tag;
+            movable.IsSelected = false;
             leftClicked = false;
-            pictureBox.MouseMove -= Moveable_MouseMove;
+            pictureBox.MouseMove -= Movable_MouseMove;
 
             //should try to check if movement is allowed in boundaries
-            moveable.Position = pictureBox.Location;
+            movable.Position = pictureBox.Location;
 
         }
-        private void Moveable_MouseMove(object sender, MouseEventArgs e)
+        private void Movable_MouseMove(object sender, MouseEventArgs e)
         {
             if (leftClicked)
             {
                 var pictureBox = (PictureBox)sender;
                 pictureBox.Top += e.Y - mouseClickPosition.Y;
                 pictureBox.Left += e.X - mouseClickPosition.Y;
+               ;
             }
         }
     }

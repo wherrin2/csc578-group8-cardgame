@@ -6,6 +6,8 @@ namespace CSC578_Project
     {
         public Image FrontImage { get; set; }
         public Image BackImage { get; set; }
+        public bool IsFrontImage { get; set; } = true;
+        public bool IsBackgroundImage { get; set; }
         public int LayerID { get; set; }
 
         public void BringToFront()

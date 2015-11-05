@@ -6,6 +6,10 @@ namespace CSC578_Project
 {
     public static class AvailableGames
     {
+        /// <summary>
+        /// Creates and maintains a list of games that have the appropriate files. The file contents are not validated, only the files existence. 
+        /// </summary>
+       
         private static List<GamePackage> games = new List<GamePackage>();
         private static string primaryPath = AppDomain.CurrentDomain.BaseDirectory + @"games\";
 
