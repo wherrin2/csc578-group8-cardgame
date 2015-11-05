@@ -6,45 +6,49 @@ namespace CSC578_Project
 {
     public static class AvailableGames
     {
-        private static List<string> games = new List<string>();
-        private static string path = AppDomain.CurrentDomain.BaseDirectory;
-        private static string gamesDirectory = @"games\";
+        private static List<GamePackage> games = new List<GamePackage>();
+        private static string path = AppDomain.CurrentDomain.BaseDirectory + @"games\";
 
-        public static List<string> GetAvailableGames()
+        public static List<GamePackage> GetAvailableGames()
         {
             if (games.Count == 0)
                 SearchForGames();
 
             return games;
         }
-        public static string GameNameWithoutExtension(string game)
-        {
-            return (Path.GetFileNameWithoutExtension(game));
-        }
         public static void RefreshGamesList()
         {
-            games = new List<string>();
+            games = new List<GamePackage>();
             SearchForGames();
         }
 
         private static void SearchForGames()
         {
-            if (Directory.Exists(path + gamesDirectory))
+            if (Directory.Exists(path))
             {
                 var extensions = new string[] { ".rules", ".cards", ".board", ".players" };
-                var filesWithExtension = Directory.GetFiles(path + gamesDirectory, "*" + extensions[0], SearchOption.AllDirectories);
-                foreach (var file in filesWithExtension)
+                string[] filesWithExtension = Directory.GetFiles(path, "*" + extensions[0], SearchOption.AllDirectories);
+                foreach (string file in filesWithExtension)
                 {
-                    var fileNameNoExtension = Path.GetFileNameWithoutExtension(file);
-                    var validGame = false;
+                    string fileNameNoExtension = Path.GetFileNameWithoutExtension(file);
+                    bool validGame = false;
                     for (int i = 1; i < extensions.Length; i++)
                     {
-                        validGame = File.Exists(path + gamesDirectory + fileNameNoExtension + extensions[i]);
+                        validGame = File.Exists(path + fileNameNoExtension + extensions[i]);
                         if (!validGame)
                             break;  
                     }
                     if (validGame)
-                        games.Add(file);
+                    {
+                        var gamePackage = new GamePackage
+                        {
+                            Path = path,
+                            Name = fileNameNoExtension,
+                            FileExtensions = extensions
+                        };
+
+                        games.Add(gamePackage);
+                    }
 
                 }
             }

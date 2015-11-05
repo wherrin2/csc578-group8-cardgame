@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Drawing;
 
 namespace CSC578_Project
 {
-    class GameObject
+    public class GameObject
     {
         public int Width { get; set; }
         public int Height { get; set; }

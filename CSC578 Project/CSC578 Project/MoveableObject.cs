@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Drawing;
 
 namespace CSC578_Project
 {
@@ -11,6 +6,7 @@ namespace CSC578_Project
     {
         public bool Visible { get; set; } = true;
         public bool IsFrontImage { get; set; }
+        public bool IsSelected { get; set; }
 
         public bool Move(Point point, int requesterID)
         {

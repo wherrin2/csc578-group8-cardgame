@@ -57,6 +57,7 @@
     <Compile Include="DrawableObject.cs" />
     <Compile Include="GameEngine.cs" />
     <Compile Include="GameObject.cs" />
+    <Compile Include="GamePackage.cs" />
     <Compile Include="LoadingScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,10 +71,19 @@
       <DependentUpon>MainGamesMenu.cs</DependentUpon>
     </Compile>
     <Compile Include="MoveableObject.cs" />
+    <Compile Include="PlayingSurface.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlayingSurface.Designer.cs">
+      <DependentUpon>PlayingSurface.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainGamesMenu.resx">
       <DependentUpon>MainGamesMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlayingSurface.resx">
+      <DependentUpon>PlayingSurface.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

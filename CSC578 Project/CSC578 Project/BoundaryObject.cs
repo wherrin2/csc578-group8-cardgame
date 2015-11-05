@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Windows;
+using System.Drawing;
 
 namespace CSC578_Project
 {
     class BoundaryObject : GameObject
     {
+        public bool ShowBoundaryOutline { get; set; }
         private List<Point> gridPoints = new List<Point>();
         private List<int> allowedOwnerIDs = new List<int>();
 
