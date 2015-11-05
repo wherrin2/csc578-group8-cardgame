@@ -25,11 +25,11 @@ namespace CSC578_Project
         }
         public void AddGameObject(GameObject gameObject)
         {
-            if (typeof(MoveableObject).IsAssignableFrom(gameObject.GetType()))
+            if (typeof(MoveableObject) == gameObject.GetType())
             {
                 CreateMoveableObject((MoveableObject)gameObject);
             }
-            else if (typeof(BoundaryObject).IsAssignableFrom(gameObject.GetType()))
+            else if (typeof(BoundaryObject) == gameObject.GetType())
             {
                 CreateBoundaryObject((BoundaryObject)gameObject);
             }
@@ -53,8 +53,7 @@ namespace CSC578_Project
                 Width = moveable.Height,
                 Location = moveable.Position
             };
-
-            
+   
             pictureBox.MouseDown += Moveable_MouseDown;
             pictureBox.MouseUp += Moveable_MouseUp;
             pictureBox.Tag = moveable;
@@ -73,11 +72,12 @@ namespace CSC578_Project
             };
 
             graphics.DrawRectangle(Pens.Black, rectangle);
+            graphics.Dispose();
         }
 
         private void Moveable_MouseDown(object sender, MouseEventArgs e)
         {
-            //fix ID in isSelectable
+            //fix ID in isSelectable - should be current player's ID
             var pictureBox = (PictureBox)sender;
             var moveable = (MoveableObject)pictureBox.Tag;
             if (moveable.IsSelectable(-1))
@@ -99,7 +99,7 @@ namespace CSC578_Project
             leftClicked = false;
             pictureBox.MouseMove -= Moveable_MouseMove;
 
-            //should try to check if movement should be allowed
+            //should try to check if movement is allowed in boundaries
             moveable.Position = pictureBox.Location;
 
         }
@@ -108,7 +108,6 @@ namespace CSC578_Project
             if (leftClicked)
             {
                 var pictureBox = (PictureBox)sender;
-
                 pictureBox.Top += e.Y - mouseClickPosition.Y;
                 pictureBox.Left += e.X - mouseClickPosition.Y;
             }

@@ -7,7 +7,7 @@ namespace CSC578_Project
 {
     public partial class MainGamesMenu : Form
     {
-        private GamePackage selection;
+        private GamePackage gameSelection;
         public MainGamesMenu()
         {
             InitializeComponent();
@@ -44,12 +44,16 @@ namespace CSC578_Project
             if (lvwListGames.SelectedItems.Count == 1)
             {
                 btnPlay.Enabled = true;
-                selection = (GamePackage)lvwListGames.SelectedItems[0].Tag;
+                gameSelection = (GamePackage)lvwListGames.SelectedItems[0].Tag;
             }
             else
             {
                 btnPlay.Enabled = false;
             }
+        }
+
+        private void btnPlay_Click(object sender, EventArgs e)
+        {
         }
     }
 }
