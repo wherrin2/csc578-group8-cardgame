@@ -37,8 +37,10 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(790, 542);
             this.DoubleBuffered = true;
+            this.KeyPreview = true;
             this.Name = "PlayingSurface";
             this.Text = "PlayingSurface";
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PlayingSurface_KeyPress);
             this.ResumeLayout(false);
 
         }

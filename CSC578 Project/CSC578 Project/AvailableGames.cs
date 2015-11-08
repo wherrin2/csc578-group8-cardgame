@@ -4,12 +4,11 @@ using System.IO;
 
 namespace CSC578_Project
 {
+    /// <summary>
+    /// Creates and maintains a list of games that have the appropriate files. The file contents are not validated, only the files existence. 
+    /// </summary>
     public static class AvailableGames
     {
-        /// <summary>
-        /// Creates and maintains a list of games that have the appropriate files. The file contents are not validated, only the files existence. 
-        /// </summary>
-       
         private static List<GamePackage> games = new List<GamePackage>();
         private static string primaryPath = AppDomain.CurrentDomain.BaseDirectory + @"games\";
 
@@ -20,6 +19,7 @@ namespace CSC578_Project
 
             return games;
         }
+
         public static void RefreshGamesList()
         {
             games = new List<GamePackage>();

@@ -34,6 +34,7 @@
             this.columnHeaderPlayers = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnPlay = new System.Windows.Forms.Button();
             this.btnQuit = new System.Windows.Forms.Button();
+            this.lblGamesAvailable = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lvwListGames
@@ -43,9 +44,10 @@
             this.columnHeaderNumber,
             this.columnHeaderName,
             this.columnHeaderPlayers});
+            this.lvwListGames.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvwListGames.FullRowSelect = true;
             this.lvwListGames.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.lvwListGames.Location = new System.Drawing.Point(12, 57);
+            this.lvwListGames.Location = new System.Drawing.Point(11, 57);
             this.lvwListGames.MultiSelect = false;
             this.lvwListGames.Name = "lvwListGames";
             this.lvwListGames.Size = new System.Drawing.Size(713, 245);
@@ -57,14 +59,17 @@
             // columnHeaderNumber
             // 
             this.columnHeaderNumber.Text = "#";
+            this.columnHeaderNumber.Width = 67;
             // 
             // columnHeaderName
             // 
             this.columnHeaderName.Text = "Name";
+            this.columnHeaderName.Width = 477;
             // 
             // columnHeaderPlayers
             // 
             this.columnHeaderPlayers.Text = "Players";
+            this.columnHeaderPlayers.Width = 128;
             // 
             // btnPlay
             // 
@@ -89,6 +94,16 @@
             this.btnQuit.UseVisualStyleBackColor = true;
             this.btnQuit.Click += new System.EventHandler(this.btnQuit_Click);
             // 
+            // lblGamesAvailable
+            // 
+            this.lblGamesAvailable.AutoSize = true;
+            this.lblGamesAvailable.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGamesAvailable.Location = new System.Drawing.Point(584, 315);
+            this.lblGamesAvailable.Name = "lblGamesAvailable";
+            this.lblGamesAvailable.Size = new System.Drawing.Size(132, 20);
+            this.lblGamesAvailable.TabIndex = 3;
+            this.lblGamesAvailable.Text = " Games Available";
+            // 
             // MainGamesMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -96,16 +111,21 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(737, 457);
+            this.Controls.Add(this.lblGamesAvailable);
             this.Controls.Add(this.btnQuit);
             this.Controls.Add(this.btnPlay);
             this.Controls.Add(this.lvwListGames);
             this.DoubleBuffered = true;
             this.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.Name = "MainGamesMenu";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Games Menu";
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainGamesMenu_KeyPress);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -117,5 +137,6 @@
         private System.Windows.Forms.ColumnHeader columnHeaderPlayers;
         private System.Windows.Forms.Button btnPlay;
         private System.Windows.Forms.Button btnQuit;
+        private System.Windows.Forms.Label lblGamesAvailable;
     }
 }

@@ -32,6 +32,11 @@ namespace CSC578_Project
                 item.Tag = games[i];
                 lvwListGames.Items.Add(item);
             }
+
+            if (games.Count == 1)
+                lblGamesAvailable.Text = "1 Game Available";
+            else
+                lblGamesAvailable.Text = games.Count + " Games Available";
         }
 
         private void btnQuit_Click(object sender, EventArgs e)
@@ -54,6 +59,14 @@ namespace CSC578_Project
 
         private void btnPlay_Click(object sender, EventArgs e)
         {
+        }
+
+        private void MainGamesMenu_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Escape)
+            {
+                OpenQuitDialogBox();
+            }
         }
     }
 }

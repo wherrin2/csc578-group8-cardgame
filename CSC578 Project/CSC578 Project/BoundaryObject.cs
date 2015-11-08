@@ -18,9 +18,24 @@ namespace CSC578_Project
             allowedOwnerIDs.Add(id);
         }
 
-        public bool CheckBoundary(Point point, int ownerID)
+        /// <summary>
+        /// Checks if point is inside the boundary zone. Checks if the ID is allowed in the zone.
+        /// </summary>
+        /// <param name="point">Point object was moved to</param>
+        /// <param name="requesterID">ID of the player requesting the movement</param>
+        /// <returns>True if Point is allowed and inside boundary. Otherwise false.</returns>
+        public bool CheckBoundary(Point point, int requesterID)
         {
-            //implement logic
+            if (allowedOwnerIDs.Contains(requesterID))
+            { 
+                if (point.X >= Position.X && point.X <= Position.X + Width)
+                {
+                    if (point.Y >= Position.Y && point.Y <= Position.Y + Height)
+                    {
+                        return true;
+                    }
+                }
+            }
             return false;
         }
         public Point GetNearestGridPoint(Point point)

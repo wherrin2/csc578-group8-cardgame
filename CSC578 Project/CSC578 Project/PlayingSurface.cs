@@ -41,7 +41,8 @@ namespace CSC578_Project
             else if (typeof(BoundaryObject) == type)
             {
                 CreateBoundaryObject((BoundaryObject)gameObject);
-            } else if (typeof(DrawableObject) == type)
+            }
+            else if (typeof(DrawableObject) == type)
             {
                 CreateDrawableObject((DrawableObject)gameObject);
             }
@@ -180,7 +181,7 @@ namespace CSC578_Project
             pictureBox.MouseMove -= Movable_MouseMove;
             movable.IsSelected = false;
 
-            //Fire Event with new point
+            //Check for null and fire Event with new point
             GameObjectHasMoved?.Invoke((GameObject)pictureBox.Tag, pictureBox.Location);
 
         }
@@ -191,9 +192,15 @@ namespace CSC578_Project
                 var pictureBox = (PictureBox)sender;
                 pictureBox.Top += e.Y - mouseClickPosition.Y;
                 pictureBox.Left += e.X - mouseClickPosition.Y;
-               ;
             }
         }
 
+        private void PlayingSurface_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Escape)
+            {
+                //bring up a menu with option to restart, quit or other options
+            }
+        }
     }
 }

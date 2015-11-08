@@ -21,13 +21,13 @@ namespace CSC578_Project
         public void AddGameObject(GameObject gameObject)
         {
             gameObjects.Add(gameObject);
-            surface.AddGameObject(gameObject);
+            surface.AddGameObject(gameObject);       
         }
 
         public void RemoveGameObject(GameObject gameObject)
         {
-            gameObjects.Remove(gameObject);
             surface.RemoveGameObject(gameObject);
+            gameObjects.Remove(gameObject);
         }
 
         private void CheckMovement(object sender, Point e)
