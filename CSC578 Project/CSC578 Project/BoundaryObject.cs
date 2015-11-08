@@ -9,6 +9,15 @@ namespace CSC578_Project
         private List<Point> gridPoints = new List<Point>();
         private List<int> allowedOwnerIDs = new List<int>();
 
+        public void AddGridPoint(Point point)
+        {
+            gridPoints.Add(point);
+        }
+        public void AddOwnerID(int id)
+        {
+            allowedOwnerIDs.Add(id);
+        }
+
         public bool CheckBoundary(Point point, int ownerID)
         {
             //implement logic

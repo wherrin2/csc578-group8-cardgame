@@ -77,6 +77,7 @@
     <Compile Include="PlayingSurface.Designer.cs">
       <DependentUpon>PlayingSurface.cs</DependentUpon>
     </Compile>
+    <Compile Include="PlayingSurfaceManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainGamesMenu.resx">
