@@ -19,12 +19,11 @@ namespace CSC578_Project
 
         private bool leftClicked;
         private Point mouseClickPosition;
-        private Control.ControlCollection formControls;
+        private List<Control> formControls = new List<Control>();
 
         public PlayingSurface()
         {
             InitializeComponent();
-            formControls = this.Controls;
         }
 
         /// <summary>
@@ -98,17 +97,22 @@ namespace CSC578_Project
             pictureBox.Tag = movable;
             
             formControls.Add(pictureBox);
+            this.Controls.Add(pictureBox);
         }
 
         private void CreateDrawableObject(DrawableObject drawable)
         {
             if (drawable.IsBackgroundImage)
             {
+                this.Width = drawable.Width;
+                this.Height = drawable.Height;
                 this.BackgroundImage = drawable.IsFrontImage ? drawable.FrontImage : drawable.BackImage;
             }
             else
             {
-                formControls.Add(CreatePictureBox(drawable));
+                var pictureBox = CreatePictureBox(drawable);
+                formControls.Add(pictureBox);
+                this.Controls.Add(pictureBox);
             }
            
         }
@@ -137,7 +141,6 @@ namespace CSC578_Project
                 Location = drawable.Position,
                 BackColor = Color.Transparent,
                 SizeMode =  PictureBoxSizeMode.StretchImage,
-                
                 Image = drawable.IsFrontImage ? drawable.FrontImage : drawable.BackImage
             };
             return pictureBox;
@@ -187,12 +190,9 @@ namespace CSC578_Project
         }
         private void Movable_MouseMove(object sender, MouseEventArgs e)
         {
-            if (leftClicked)
-            {
-                var pictureBox = (PictureBox)sender;
-                pictureBox.Top += e.Y - mouseClickPosition.Y;
-                pictureBox.Left += e.X - mouseClickPosition.Y;
-            }
+            var pictureBox = (PictureBox)sender;
+            pictureBox.Top += e.Y - mouseClickPosition.Y;
+            pictureBox.Left += e.X - mouseClickPosition.X;
         }
 
         private void PlayingSurface_KeyPress(object sender, KeyPressEventArgs e)
@@ -200,7 +200,24 @@ namespace CSC578_Project
             if (e.KeyChar == (char)Keys.Escape)
             {
                 //bring up a menu with option to restart, quit or other options
+                //RemoveAllFormControls();
             }
+        }
+
+        private void PlayingSurface_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //RemoveAllFormControls();
+        }
+
+        private void RemoveAllFormControls()
+        {
+            foreach (var control in formControls)
+            {
+                this.Controls.Remove(control);
+                control.Dispose();
+            }
+            formControls.Clear();
+
         }
     }
 }
