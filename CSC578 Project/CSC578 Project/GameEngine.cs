@@ -15,5 +15,18 @@ namespace CSC578_Project
             }
 
         }
+
+        public bool ValidateGamePackage(GamePackage package)
+        {
+            //pass package contents to listening modules
+            return true;
+        }
+
+        public void StartGameInstance(GamePackage package)
+        {
+            PlayingSurfaceManager.NewGame();
+            //pass package to other modules
+            PlayingSurfaceManager.ShowPlayingSurface();
+        }
     }
 }

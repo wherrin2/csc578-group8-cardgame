@@ -15,7 +15,7 @@ namespace CSC578_Project
         //todo implement player turn logic with appropriate IDs
         //todo implement surface manager that orders layers
 
-        public event EventHandler<Point> GameObjectHasMoved;
+        public event EventHandler<GameObjectEventArgs> GameObjectHasMoved;
 
         private bool leftClicked;
         private Point mouseClickPosition;
@@ -97,22 +97,22 @@ namespace CSC578_Project
             pictureBox.Tag = movable;
             
             formControls.Add(pictureBox);
-            this.Controls.Add(pictureBox);
+            Controls.Add(pictureBox);
         }
 
         private void CreateDrawableObject(DrawableObject drawable)
         {
             if (drawable.IsBackgroundImage)
             {
-                this.Width = drawable.Width;
-                this.Height = drawable.Height;
-                this.BackgroundImage = drawable.IsFrontImage ? drawable.FrontImage : drawable.BackImage;
+                Width = drawable.Width;
+                Height = drawable.Height;
+                BackgroundImage = drawable.IsFrontImage ? drawable.FrontImage : drawable.BackImage;
             }
             else
             {
                 var pictureBox = CreatePictureBox(drawable);
                 formControls.Add(pictureBox);
-                this.Controls.Add(pictureBox);
+                Controls.Add(pictureBox);
             }
            
         }
@@ -185,7 +185,8 @@ namespace CSC578_Project
             movable.IsSelected = false;
 
             //Check for null and fire Event with new point
-            GameObjectHasMoved?.Invoke((GameObject)pictureBox.Tag, pictureBox.Location);
+            GameObject currentObject = (GameObject) pictureBox.Tag;
+            GameObjectHasMoved?.Invoke(currentObject, new GameObjectEventArgs() {Position = currentObject.Position});
 
         }
         private void Movable_MouseMove(object sender, MouseEventArgs e)
@@ -213,7 +214,7 @@ namespace CSC578_Project
         {
             foreach (var control in formControls)
             {
-                this.Controls.Remove(control);
+                Controls.Remove(control);
                 control.Dispose();
             }
             formControls.Clear();

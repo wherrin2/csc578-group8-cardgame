@@ -7,9 +7,9 @@ namespace CSC578_Project
         public bool Visible { get; set; } = true;
         public bool IsSelected { get; set; }
 
-        public bool IsSelectable(int requesterID)
+        public bool IsSelectable(int requesterId)
         {
-            return OwnerID == requesterID;
+            return OwnerId == requesterId;
         }
     }
 }

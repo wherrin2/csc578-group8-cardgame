@@ -7,8 +7,8 @@ namespace CSC578_Project
         public int Width { get; set; }
         public int Height { get; set; }
         public Point Position { get; set; }
-        public int ID { get; set; }
-        public int OwnerID { get; set; } = -1;
+        public int Id { get; set; }
+        public int OwnerId { get; set; } = -1;
 
     }
 }

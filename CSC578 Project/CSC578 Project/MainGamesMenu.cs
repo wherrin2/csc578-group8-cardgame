@@ -59,6 +59,14 @@ namespace CSC578_Project
 
         private void btnPlay_Click(object sender, EventArgs e)
         {
+            if (GameEngine.Instance.ValidateGamePackage(gameSelection))
+            {
+                
+            }
+            else
+            {
+                MessageBox.Show("Game Package Is Not Valid", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void MainGamesMenu_KeyPress(object sender, KeyPressEventArgs e)

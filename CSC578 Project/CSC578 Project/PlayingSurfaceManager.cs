@@ -7,30 +7,50 @@ using System.Threading.Tasks;
 
 namespace CSC578_Project
 {
-    public class PlayingSurfaceManager
+    public sealed class PlayingSurfaceManager
     {
-        private List<GameObject> gameObjects = new List<GameObject>();
-        private PlayingSurface surface = new PlayingSurface();
-        public PlayingSurfaceManager()
+        private static List<GameObject> gameObjects = new List<GameObject>();
+        private static PlayingSurface surface;
+
+        static PlayingSurfaceManager()
         {
-            surface.GameObjectHasMoved += CheckMovement;
-            //may move this to the game engine itself
-            surface.Show();
+            CreatePlayingSurface();
         }
 
-        public void AddGameObject(GameObject gameObject)
+        public static void AddGameObject(GameObject gameObject)
         {
             gameObjects.Add(gameObject);
             surface.AddGameObject(gameObject);       
         }
 
-        public void RemoveGameObject(GameObject gameObject)
+        public static void RemoveGameObject(GameObject gameObject)
         {
             surface.RemoveGameObject(gameObject);
             gameObjects.Remove(gameObject);
         }
 
-        private void CheckMovement(object sender, Point e)
+        public static void NewGame()
+        {
+            CreatePlayingSurface();
+        }
+
+        public static void ShowPlayingSurface()
+        {
+            surface?.Show();
+        }
+
+        public static void HidePlayingSurface()
+        {
+            surface?.Hide();
+        }
+        private static void CreatePlayingSurface()
+        {
+            gameObjects.Clear();
+            surface?.Dispose();
+            surface = new PlayingSurface();
+            surface.GameObjectHasMoved += CheckMovement;
+        }
+        private static void CheckMovement(object sender, GameObjectEventArgs e)
         {
             var gameObject = (GameObject) sender;
             // validate movement 

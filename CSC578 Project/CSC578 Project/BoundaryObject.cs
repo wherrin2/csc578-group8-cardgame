@@ -7,26 +7,26 @@ namespace CSC578_Project
     {
         public bool ShowBoundaryOutline { get; set; }
         private List<Point> gridPoints = new List<Point>();
-        private List<int> allowedOwnerIDs = new List<int>();
+        private List<int> allowedOwnerIds = new List<int>();
 
         public void AddGridPoint(Point point)
         {
             gridPoints.Add(point);
         }
-        public void AddOwnerID(int id)
+        public void AddOwnerId(int id)
         {
-            allowedOwnerIDs.Add(id);
+            allowedOwnerIds.Add(id);
         }
 
         /// <summary>
         /// Checks if point is inside the boundary zone. Checks if the ID is allowed in the zone.
         /// </summary>
         /// <param name="point">Point object was moved to</param>
-        /// <param name="requesterID">ID of the player requesting the movement</param>
+        /// <param name="requesterId">ID of the player requesting the movement</param>
         /// <returns>True if Point is allowed and inside boundary. Otherwise false.</returns>
-        public bool CheckBoundary(Point point, int requesterID)
+        public bool CheckBoundary(Point point, int requesterId)
         {
-            if (allowedOwnerIDs.Contains(requesterID))
+            if (allowedOwnerIds.Contains(requesterId))
             { 
                 if (point.X >= Position.X && point.X <= Position.X + Width)
                 {
@@ -41,6 +41,7 @@ namespace CSC578_Project
         public Point GetNearestGridPoint(Point point)
         {
             //implement logic
+            //if needed a lot could implement QuadTree data structure
             return point;
         }
     }

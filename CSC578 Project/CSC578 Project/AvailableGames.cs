@@ -28,34 +28,34 @@ namespace CSC578_Project
 
         private static void SearchForGames()
         {
-            if (Directory.Exists(primaryPath))
+            if (!Directory.Exists(primaryPath))
+                return;
+
+            var extensions = new string[] { ".rules", ".cards", ".board", ".players" };
+            var filesWithExtension = Directory.GetFiles(primaryPath, "*" + extensions[0], SearchOption.AllDirectories);
+            foreach (var file in filesWithExtension)
             {
-                var extensions = new string[] { ".rules", ".cards", ".board", ".players" };
-                string[] filesWithExtension = Directory.GetFiles(primaryPath, "*" + extensions[0], SearchOption.AllDirectories);
-                foreach (string file in filesWithExtension)
+                var fileNameNoExtension = Path.GetFileNameWithoutExtension(file);
+                var currentPath = Path.GetDirectoryName(file) + @"\";
+                var validGame = false;
+                for (var i = 1; i < extensions.Length; i++)
                 {
-                    string fileNameNoExtension = Path.GetFileNameWithoutExtension(file);
-                    string currentPath = Path.GetDirectoryName(file) + @"\";
-                    bool validGame = false;
-                    for (int i = 1; i < extensions.Length; i++)
-                    {
-                        validGame = File.Exists(currentPath + fileNameNoExtension + extensions[i]);
-                        if (!validGame)
-                            break;  
-                    }
-                    if (validGame)
-                    {
-                        var gamePackage = new GamePackage
-                        {
-                            Path = currentPath,
-                            Name = fileNameNoExtension,
-                            FileExtensions = extensions
-                        };
-
-                        games.Add(gamePackage);
-                    }
-
+                    validGame = File.Exists(currentPath + fileNameNoExtension + extensions[i]);
+                    if (!validGame)
+                        break;  
                 }
+                if (validGame)
+                {
+                    var gamePackage = new GamePackage
+                    {
+                        Path = currentPath,
+                        Name = fileNameNoExtension,
+                        FileExtensions = extensions
+                    };
+
+                    games.Add(gamePackage);
+                }
+
             }
         }
     }
