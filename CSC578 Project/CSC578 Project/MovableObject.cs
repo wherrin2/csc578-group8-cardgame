@@ -6,6 +6,8 @@ namespace CSC578_Project
     {
         public bool Visible { get; set; } = true;
         public bool IsSelected { get; set; }
+        public int Rank { get; set; }
+        public int Value { get; set; }
 
         public bool IsSelectable(int requesterId)
         {

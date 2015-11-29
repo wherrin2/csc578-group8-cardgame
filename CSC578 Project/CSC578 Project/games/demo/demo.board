@@ -1,0 +1,4 @@
+{"name":"board", "width":"1024", "height":"768", "frontImage":"testboard.png", "isBackgroundImage":"true", "boundaries" :[
+	{"ownerId":"Player.Players.Player1"},
+	{"ownderId":"Player.Players.Player2"}
+]}
