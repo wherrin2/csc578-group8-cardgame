@@ -6,9 +6,11 @@ namespace CSC578_Project
     {
         public int Width { get; set; }
         public int Height { get; set; }
-        public Point Position { get; set; }
+        public int PositionX { get; set; }
+        public int PositionY { get; set; }
         public int Id { get; set; }
         public int OwnerId { get; set; } = -1;
+        public string Name { get; set; }
 
     }
 }

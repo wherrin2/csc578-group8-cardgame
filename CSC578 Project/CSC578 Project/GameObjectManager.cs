@@ -30,7 +30,8 @@ namespace CSC578_Project
                 gameObjects?.Clear();
                 foreach (var extension in package.FileExtensions)
                 {
-                    
+                    if (!extension.Contains(".rules"))
+                     OpenGameObject(package.Path + package.Name + extension);
                 }
             }
             catch (Exception e)
@@ -51,8 +52,7 @@ namespace CSC578_Project
             using (StreamReader file = File.OpenText(fileName))
             {
                 string json = file.ReadToEnd();
-                var jObject = JObject.Parse(json);
-
+                JsonParser.Deserialize(json);
                 //should check objects and entries for array. Determine game objects based on if keys exist.
                 //is_movable, front_image, allowed_owner_ids would establish the various objects if the keys existed and not false or null 
             }

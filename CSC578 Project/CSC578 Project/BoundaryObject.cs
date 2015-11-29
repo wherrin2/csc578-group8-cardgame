@@ -28,9 +28,9 @@ namespace CSC578_Project
         {
             if (allowedOwnerIds.Contains(requesterId))
             { 
-                if (point.X >= Position.X && point.X <= Position.X + Width)
+                if (point.X >= PositionX && point.X <= PositionX + Width)
                 {
-                    if (point.Y >= Position.Y && point.Y <= Position.Y + Height)
+                    if (point.Y >= PositionY && point.Y <= PositionY + Height)
                     {
                         return true;
                     }

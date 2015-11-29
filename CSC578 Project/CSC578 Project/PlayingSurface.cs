@@ -106,7 +106,7 @@ namespace CSC578_Project
             {
                 Width = drawable.Width;
                 Height = drawable.Height;
-                BackgroundImage = drawable.IsFrontImage ? drawable.FrontImage : drawable.BackImage;
+                BackgroundImage = Image.FromFile(drawable.IsFrontImage ? drawable.FrontImage : drawable.BackImage);
             }
             else
             {
@@ -124,7 +124,7 @@ namespace CSC578_Project
             {
                 Height = boundary.Height,
                 Width = boundary.Width,
-                Location = boundary.Position
+                Location = new Point( boundary.PositionX, boundary.PositionY)
 
             };
 
@@ -138,10 +138,10 @@ namespace CSC578_Project
             {
                 Height = drawable.Height,
                 Width = drawable.Width,
-                Location = drawable.Position,
+                Location = new Point(drawable.PositionX, drawable.PositionY),
                 BackColor = Color.Transparent,
                 SizeMode =  PictureBoxSizeMode.StretchImage,
-                Image = drawable.IsFrontImage ? drawable.FrontImage : drawable.BackImage
+                Image = Image.FromFile(drawable.IsFrontImage ? drawable.FrontImage : drawable.BackImage)
             };
             return pictureBox;
         }
@@ -186,7 +186,7 @@ namespace CSC578_Project
 
             //Check for null and fire Event with new point
             GameObject currentObject = (GameObject) pictureBox.Tag;
-            GameObjectHasMoved?.Invoke(currentObject, new GameObjectEventArgs() {Position = currentObject.Position});
+            GameObjectHasMoved?.Invoke(currentObject, new GameObjectEventArgs() {Position = new Point(currentObject.PositionX, currentObject.PositionY)});
 
         }
         private void Movable_MouseMove(object sender, MouseEventArgs e)

@@ -65,6 +65,7 @@
     <Compile Include="GameObjectEventArgs.cs" />
     <Compile Include="GameObjectManager.cs" />
     <Compile Include="GamePackage.cs" />
+    <Compile Include="JsonParser.cs" />
     <Compile Include="LoadingScreen.cs">
       <SubType>Form</SubType>
     </Compile>

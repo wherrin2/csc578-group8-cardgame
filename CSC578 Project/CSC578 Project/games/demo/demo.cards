@@ -1,3 +1,5 @@
 {"cards":[
-	{"isMovable":"true", "value":"2", "rank":"2", "suit":"Clubs", "width":"32", "height":"48"}
+	{"isMovable": true, "value": 2, "rank": 2, "suit":"Clubs", "width": 32, "height": 48, "positionX": 33, "positionY": 55},
+	{"isMovable": true, "value": 3, "rank": 3, "suit":"Clubs", "width": 32, "height": 48},
+	{"isMovable": true , "value": 4, "rank": 4, "suit":"Clubs", "width": 32, "height": 48}
 ]}
