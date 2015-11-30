@@ -1,4 +1,4 @@
 {"name":"board", "width": 1024, "height": 768, "frontImage":"testboard.png", "isBackgroundImage": true, "boundaries" :[
-	{"allowedOwnerIds":  "Player.Players.Player1"},
-	{"allowedOwnerIds": ["Player.Players.Player2"]}
+	{"allowedOwnerIds":  1},
+	{"allowedOwnerIds": 2}
 ]}

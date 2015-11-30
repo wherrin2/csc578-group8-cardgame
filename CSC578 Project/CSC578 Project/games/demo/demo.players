@@ -1,4 +1,4 @@
 {"players":[
-	{"name":"Player1"},
-	{"name":"Player2"}
+	{"name":"Player1", "id": 1},
+	{"name":"Player2", "id": 2}
 ]}

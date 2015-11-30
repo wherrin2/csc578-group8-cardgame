@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -36,7 +37,7 @@ namespace CSC578_Project
             }
             catch (Exception e)
             {
-                Console.Write(e.StackTrace);
+                MessageBox.Show(e.Message);
                 return false;
             }
             return true;

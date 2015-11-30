@@ -32,10 +32,11 @@ namespace CSC578_Project
                     else if (isMovable != null)
                     {
                         var movable = JsonConvert.DeserializeObject<MovableObject>(token.ToString());
+                        movable.IsSelected.ToString();
                     }
                     else if (isDrawable != null)
                     {
-                        
+                        var drawable = JsonConvert.DeserializeObject<DrawableObject>(token.ToString());
                     }
 
                     var prop = token.Children<JProperty>().ToList();
