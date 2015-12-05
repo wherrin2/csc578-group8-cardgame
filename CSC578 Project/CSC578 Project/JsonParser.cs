@@ -12,12 +12,15 @@ namespace CSC578_Project
 
     public static class JsonParser
     {
-        public static void Deserialize(string json)
+        private static List<GameObject> gameObjects;
+        public static List<GameObject> Deserialize(string json, string fileKey)
         {
-             ToGameObject(JToken.Parse(json));
+            gameObjects = new List<GameObject>();
+            ToGameObject(JToken.Parse(json), fileKey);
+            return gameObjects;
         }
 
-        private static void ToGameObject(JToken token)
+        private static void ToGameObject(JToken token, string key)
         {
             switch (token.Type)
             {
@@ -28,34 +31,38 @@ namespace CSC578_Project
                     if (isBoundary != null)
                     {
                         var boundary = JsonConvert.DeserializeObject<BoundaryObject>(token.ToString());
+                        boundary.Name = key + "." + boundary.Name;
+                        gameObjects.Add(boundary);
                     }
                     else if (isMovable != null)
                     {
                         var movable = JsonConvert.DeserializeObject<MovableObject>(token.ToString());
-                        movable.IsSelected.ToString();
+                        movable.Name = key + "." + movable.Name;
+                        gameObjects.Add(movable);
                     }
                     else if (isDrawable != null)
                     {
                         var drawable = JsonConvert.DeserializeObject<DrawableObject>(token.ToString());
+                        drawable.Name = key + "." + drawable.Name;
+                        gameObjects.Add(drawable);
                     }
 
                     var prop = token.Children<JProperty>().ToList();
                     for (int i = 0; i < prop.Count; i++)
                     {
-                        ToGameObject(prop[i].Value);
+                        ToGameObject(prop[i].Value, key);
                     }
                     break;
                     
 
                 case JTokenType.Array:
-                    //thinking about setting the name as the complete path to the object
                     //Example in .cards file in an array 'cards' and an element named '2clubs'
                     //name =  Cards.cards.2clubs / could support linking amongst files if implemented
-                    //var path = token.Path.ToString();
+                    key += "." + token.Path;
                     var list = token.Children<JToken>().ToList();
                     for (int i = 0; i < list.Count; i++)
                     {
-                        ToGameObject(list[i]);
+                        ToGameObject(list[i], key);
                     }
                     break;
             }

@@ -28,11 +28,18 @@ namespace CSC578_Project
         {
             try
             {
-                gameObjects?.Clear();
+                if (gameObjects == null)
+                    gameObjects = new Dictionary<string, List<GameObject>>();
+                else
+                    gameObjects.Clear();
+
                 foreach (var extension in package.FileExtensions)
                 {
                     if (!extension.Contains(".rules"))
-                     OpenGameObject(package.Path + package.Name + extension);
+                    {
+                        string fileKey = extension.Substring(1);
+                        gameObjects?.Add(fileKey, OpenGameObject(package.Path + package.Name + extension, fileKey));
+                    }
                 }
             }
             catch (Exception e)
@@ -43,22 +50,25 @@ namespace CSC578_Project
             return true;
         }
 
+        public static List<GameObject> GetGameObjects(string key)
+        {
+            return gameObjects?[key];
+        } 
+
         /// <summary>
         /// Players, Board, and Cards file can all be broken down into GameObjects
         /// </summary>
         /// <param name="fileName">Path to specific file (should be Player, Board, or Cards file)</param>
         /// <returns>True if valid file. Does not validate links to other files at this step. False if error occured.</returns>
-        private static bool OpenGameObject(string fileName)
+        private static List<GameObject> OpenGameObject(string fileName, string fileKey)
         {
             using (StreamReader file = File.OpenText(fileName))
             {
                 string json = file.ReadToEnd();
-                JsonParser.Deserialize(json);
+                return JsonParser.Deserialize(json, fileKey);
                 //should check objects and entries for array. Determine game objects based on if keys exist.
                 //is_movable, front_image, allowed_owner_ids would establish the various objects if the keys existed and not false or null 
             }
-            
-            return true;
         }
 
         /// <summary>

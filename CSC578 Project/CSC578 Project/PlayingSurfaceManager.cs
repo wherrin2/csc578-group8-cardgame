@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CSC578_Project
 {
@@ -53,11 +54,13 @@ namespace CSC578_Project
         private static void CheckMovement(object sender, GameObjectEventArgs e)
         {
             var gameObject = (GameObject) sender;
-            // validate movement 
-            //if correct assign position
-           // gameObject.Position = e;
-            //if not valid move back
-            //surface.MoveGameObject(gameObject, gameObject.Position, false);
+            var boundaryObject = (BoundaryObject) e.CollidingObject;
+            //validate and move
+
+            var nearestGridPoint = boundaryObject.GetNearestGridPoint(e.Position);
+            gameObject.Position = nearestGridPoint;
+            surface.MoveGameObject(gameObject, nearestGridPoint, true);
+
         }
     }
 }

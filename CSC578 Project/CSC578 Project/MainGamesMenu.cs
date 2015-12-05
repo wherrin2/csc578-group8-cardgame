@@ -61,7 +61,7 @@ namespace CSC578_Project
         {
             if (GameEngine.Instance.ValidateGamePackage(gameSelection))
             {
-                GameObjectManager.OpenGamePackage(gameSelection);
+                GameEngine.Instance.StartGameInstance(gameSelection);
             }
             else
             {

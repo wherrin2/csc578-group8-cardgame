@@ -78,6 +78,12 @@
     <Compile Include="MainGamesMenu.Designer.cs">
       <DependentUpon>MainGamesMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Menu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Menu.Designer.cs">
+      <DependentUpon>Menu.cs</DependentUpon>
+    </Compile>
     <Compile Include="MovableObject.cs" />
     <Compile Include="PlayingSurface.cs">
       <SubType>Form</SubType>
@@ -86,6 +92,7 @@
       <DependentUpon>PlayingSurface.cs</DependentUpon>
     </Compile>
     <Compile Include="PlayingSurfaceManager.cs" />
+    <Compile Include="Position.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="games\demo\demo.rules">
@@ -93,6 +100,9 @@
     </None>
     <EmbeddedResource Include="MainGamesMenu.resx">
       <DependentUpon>MainGamesMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Menu.resx">
+      <DependentUpon>Menu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PlayingSurface.resx">
       <DependentUpon>PlayingSurface.cs</DependentUpon>
@@ -305,6 +315,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="cards\Backs\Card-Back-02.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="board\GreenGradient.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

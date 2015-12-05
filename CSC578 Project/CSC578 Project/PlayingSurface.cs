@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Navigation;
 
 namespace CSC578_Project
 {
@@ -20,6 +22,8 @@ namespace CSC578_Project
         private bool leftClicked;
         private Point mouseClickPosition;
         private List<Control> formControls = new List<Control>();
+        private List<Control> formBoundaries = new List<Control>(); 
+        private string path = AppDomain.CurrentDomain.BaseDirectory + @"\";
 
         public PlayingSurface()
         {
@@ -68,82 +72,114 @@ namespace CSC578_Project
         /// Moves Game Object to specified point
         /// </summary>
         /// <param name="gameObject">Game Object to move</param>
-        /// <param name="point">Location to move</param>
+        /// <param name="position">Position to move</param>
         /// <param name="animate">Animate transition to new location</param>
-        public void MoveGameObject(GameObject gameObject, Point point, bool animate)
+        public void MoveGameObject(GameObject gameObject, Position position, bool animate)
         {
             //move controls and animate with a timer if necessary
             List<Control> controls = FindControlsByGameObject(gameObject);
             foreach (var control in controls)
             {
-                control.Location = point;
+                if (animate)
+                {
+                    moveTimer.Tag = control;
+                    moveTimer.Start();
+                }
+                else
+                    control.Location = new Point(position.X, position.Y);
             }
-
         }
 
         private void CreateBoundaryObject(BoundaryObject boundary)
         {
-           if (boundary.ShowBoundaryOutline)
+            var pictureBox = new PictureBox()
             {
-                DrawBoundary(boundary);
+                Height = boundary.Height,
+                Width = boundary.Width,
+                BackColor = Color.Transparent,
+                Location = new Point(boundary.Position.X, boundary.Position.Y)
+            };
+            if (boundary.ShowBoundaryOutline)
+            {
+                pictureBox.Paint += PictureBox_Paint;
             }
+            pictureBox.Tag = boundary;
+            formBoundaries.Add(pictureBox);
+            Controls.Add(pictureBox); 
         }
 
         private void CreateMovableObject(MovableObject movable)
         {
             var pictureBox = CreatePictureBox(movable);
-            pictureBox.MouseDown += Movable_MouseDown;
-            pictureBox.MouseUp += Movable_MouseUp;
-            pictureBox.Tag = movable;
-            
-            formControls.Add(pictureBox);
-            Controls.Add(pictureBox);
+            if (pictureBox != null)
+            {
+                pictureBox.MouseDown += Movable_MouseDown;
+                pictureBox.MouseUp += Movable_MouseUp;
+                pictureBox.Tag = movable;
+
+                formControls.Add(pictureBox);
+                Controls.Add(pictureBox);
+            }
         }
 
         private void CreateDrawableObject(DrawableObject drawable)
         {
             if (drawable.IsBackgroundImage)
             {
-                Width = drawable.Width;
-                Height = drawable.Height;
-                BackgroundImage = Image.FromFile(drawable.IsFrontImage ? drawable.FrontImage : drawable.BackImage);
+                try
+                {
+                    Width = drawable.Width;
+                    Height = drawable.Height;
+                    BackgroundImage =
+                        Image.FromFile(drawable.IsFrontImage ? path + drawable.FrontImage : path + drawable.BackImage);
+                }
+                catch (FileNotFoundException e)
+                {
+                    MessageBox.Show("Background Image not found. Check path in configuration files.\n" + e.Message, "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
                 var pictureBox = CreatePictureBox(drawable);
-                formControls.Add(pictureBox);
-                Controls.Add(pictureBox);
+                if (pictureBox != null)
+                {
+                    formControls.Add(pictureBox);
+                    Controls.Add(pictureBox);
+                }
             }
            
-        }
-  
-        private void DrawBoundary(BoundaryObject boundary)
-        {
-            Graphics graphics = this.CreateGraphics();
-            var rectangle = new Rectangle
-            {
-                Height = boundary.Height,
-                Width = boundary.Width,
-                Location = new Point( boundary.PositionX, boundary.PositionY)
-
-            };
-
-            graphics.DrawRectangle(Pens.Black, rectangle);
-            graphics.Dispose();
         }
 
         private PictureBox CreatePictureBox(DrawableObject drawable)
         {
-            var pictureBox = new PictureBox
+            try
             {
-                Height = drawable.Height,
-                Width = drawable.Width,
-                Location = new Point(drawable.PositionX, drawable.PositionY),
-                BackColor = Color.Transparent,
-                SizeMode =  PictureBoxSizeMode.StretchImage,
-                Image = Image.FromFile(drawable.IsFrontImage ? drawable.FrontImage : drawable.BackImage)
-            };
-            return pictureBox;
+                var pictureBox = new PictureBox
+                {
+                    Height = drawable.Height,
+                    Width = drawable.Width,
+                    Location = new Point(drawable.Position.X, drawable.Position.Y),
+                    BackColor = Color.Transparent,
+                    SizeMode = PictureBoxSizeMode.StretchImage,
+                    Image =
+                        Image.FromFile(drawable.IsFrontImage ? path + drawable.FrontImage : path + drawable.BackImage)
+                };
+                return pictureBox;
+            }
+            catch (FileNotFoundException e)
+            {
+                MessageBox.Show(
+                    "Image File not Found!\n" + drawable.FrontImage + " or\n " + drawable.BackImage +
+                    "\nPlease verify path in configuration files\n" + e.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            catch (NullReferenceException e)
+            {
+                MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
         }
 
         private List<Control> FindControlsByGameObject(GameObject gameObject)
@@ -184,9 +220,26 @@ namespace CSC578_Project
             pictureBox.MouseMove -= Movable_MouseMove;
             movable.IsSelected = false;
 
-            //Check for null and fire Event with new point
+            
             GameObject currentObject = (GameObject) pictureBox.Tag;
-            GameObjectHasMoved?.Invoke(currentObject, new GameObjectEventArgs() {Position = new Point(currentObject.PositionX, currentObject.PositionY)});
+            var hasMoved = false;
+            foreach (var boundary in formBoundaries)
+            {
+                if (boundary.Bounds.IntersectsWith(pictureBox.Bounds))
+                {
+                    hasMoved = true;
+                    GameObjectHasMoved?.Invoke(currentObject, new GameObjectEventArgs()
+                    {
+                        CollidingObject = boundary.Tag,
+                        Position = new Position { X = pictureBox.Location.X, Y = pictureBox.Location.Y}
+                        
+                    });
+                }
+            }
+            if (!hasMoved)
+            {
+                MoveGameObject(currentObject, currentObject.Position, true);
+            }
 
         }
         private void Movable_MouseMove(object sender, MouseEventArgs e)
@@ -198,16 +251,43 @@ namespace CSC578_Project
 
         private void PlayingSurface_KeyPress(object sender, KeyPressEventArgs e)
         {
+            //todo add restart and menu calls
             if (e.KeyChar == (char)Keys.Escape)
             {
-                //bring up a menu with option to restart, quit or other options
-                //RemoveAllFormControls();
+                using (var menu = new Menu())
+                {
+                    menu.StartPosition = FormStartPosition.CenterParent;
+                    menu.ShowDialog();
+                    switch (menu.Selection)
+                    {
+                        case "restart":
+                            GameEngine.Instance.ReloadGame();
+                            break;
+                        case "desktop":
+                            Application.Exit();
+                            break;
+                        case "menu":
+                            this.Close();
+                            break;
+
+                    }
+                }             
+            }
+        }
+
+        private void PictureBox_Paint(object sender, PaintEventArgs e)
+        {
+            var pictureBox = (PictureBox) sender;
+            Rectangle ee = new Rectangle(0, 0, pictureBox.Width, pictureBox.Height);
+            using (Pen pen = new Pen(Color.Red, 2))
+            {
+                e.Graphics.DrawRectangle(pen, ee);
             }
         }
 
         private void PlayingSurface_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //RemoveAllFormControls();
+            RemoveAllFormControls();
         }
 
         private void RemoveAllFormControls()
@@ -218,6 +298,38 @@ namespace CSC578_Project
                 control.Dispose();
             }
             formControls.Clear();
+            foreach (var control in formBoundaries)
+            {
+                Controls.Remove(control);
+                control.Dispose();
+            }
+            formBoundaries.Clear();
+
+        }
+
+        private void moveTimer_Tick(object sender, EventArgs e)
+        {
+            
+            //gameObject has been set with new location already
+            var control = (Control)((Timer) sender).Tag;
+            var gameObject = (GameObject) control.Tag;
+
+            int moveXInterval = Math.Abs(gameObject.Position.X - control.Location.X) < 20 ? Math.Abs(gameObject.Position.X - control.Location.X) : 20;
+            int moveYInterval = Math.Abs(gameObject.Position.Y - control.Location.Y) < 20 ? Math.Abs(gameObject.Position.Y - control.Location.Y) : 20;
+
+            if (gameObject.Position.X > control.Location.X)
+                control.Left += moveXInterval;
+            else if (gameObject.Position.X < control.Location.X)
+                control.Left -= moveXInterval;
+
+            if (gameObject.Position.Y > control.Location.Y)
+                control.Top += moveYInterval;
+            else if (gameObject.Position.Y < control.Location.Y)
+                control.Top -= moveYInterval;
+
+            if (control.Location.X == gameObject.Position.X)
+                if (control.Location.Y == gameObject.Position.Y)
+                    moveTimer.Stop();
 
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace CSC578_Project
@@ -6,13 +7,9 @@ namespace CSC578_Project
     class BoundaryObject : GameObject
     {
         public bool ShowBoundaryOutline { get; set; }
-        private List<Point> gridPoints = new List<Point>();
+        public Position[] GridPoints { get; set; }
         private List<int> allowedOwnerIds = new List<int>();
 
-        public void AddGridPoint(Point point)
-        {
-            gridPoints.Add(point);
-        }
         public void AddOwnerId(int id)
         {
             allowedOwnerIds.Add(id);
@@ -28,9 +25,9 @@ namespace CSC578_Project
         {
             if (allowedOwnerIds.Contains(requesterId))
             { 
-                if (point.X >= PositionX && point.X <= PositionX + Width)
+                if (point.X >= Position.X && point.X <= Position.X + Width)
                 {
-                    if (point.Y >= PositionY && point.Y <= PositionY + Height)
+                    if (point.Y >= Position.Y && point.Y <= Position.Y + Height)
                     {
                         return true;
                     }
@@ -38,11 +35,21 @@ namespace CSC578_Project
             }
             return false;
         }
-        public Point GetNearestGridPoint(Point point)
+        public Position GetNearestGridPoint(Position position)
         {
-            //implement logic
-            //if needed a lot could implement QuadTree data structure
-            return point;
+            Position nearestGridPoint = new Position() {X = int.MaxValue, Y = int.MaxValue};
+            int nearestValue = int.MaxValue;
+            foreach (var gridPoint in GridPoints)
+            {
+                int nextValue = Math.Abs(gridPoint.X - position.X) + Math.Abs(gridPoint.Y - position.Y);
+                if (nextValue < nearestValue)
+                {
+                    nearestValue = nextValue;
+                    nearestGridPoint = gridPoint;
+                }
+
+            }
+            return nearestGridPoint;
         }
     }
 }

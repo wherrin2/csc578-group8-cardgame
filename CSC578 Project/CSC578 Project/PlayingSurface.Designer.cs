@@ -28,7 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.moveTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
+            // 
+            // moveTimer
+            // 
+            this.moveTimer.Interval = 10;
+            this.moveTimer.Tick += new System.EventHandler(this.moveTimer_Tick);
             // 
             // PlayingSurface
             // 
@@ -48,5 +55,7 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.Timer moveTimer;
     }
 }

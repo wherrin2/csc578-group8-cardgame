@@ -9,6 +9,7 @@ namespace CSC578_Project
 {
     public class GameObjectEventArgs : EventArgs
     {
-        public Point Position { get; set; }
+        public Position Position { get; set; }
+        public object CollidingObject { get; set; }
     }
 }
