@@ -20,6 +20,7 @@ namespace CSC578_Project
         public event EventHandler<GameObjectEventArgs> GameObjectHasMoved;
 
         private bool leftClicked;
+        private bool isMoving;
         private Point mouseClickPosition;
         private List<Control> formControls = new List<Control>();
         private List<Control> formBoundaries = new List<Control>(); 
@@ -80,9 +81,10 @@ namespace CSC578_Project
             List<Control> controls = FindControlsByGameObject(gameObject);
             foreach (var control in controls)
             {
-                if (animate)
+                if (animate && !isMoving)
                 {
                     moveTimer.Tag = control;
+                    isMoving = true;
                     moveTimer.Start();
                 }
                 else
@@ -195,21 +197,24 @@ namespace CSC578_Project
         private void Movable_MouseDown(object sender, MouseEventArgs e)
         {
             //fix ID in isSelectable - should be current player's ID
-            var pictureBox = (PictureBox)sender;
-            var movable = (MovableObject)pictureBox.Tag;
-            if (movable.IsSelectable(-1))
+            if (!isMoving)
             {
-                pictureBox.BringToFront();
-                movable.IsSelected = true;
-                
-                leftClicked = e.Button == MouseButtons.Left;
-                if (leftClicked)
+                var pictureBox = (PictureBox) sender;
+                var movable = (MovableObject) pictureBox.Tag;
+                if (movable.IsSelectable(-1))
                 {
-                    pictureBox.MouseMove += Movable_MouseMove;
+                    pictureBox.BringToFront();
+                    movable.IsSelected = true;
+
+                    leftClicked = e.Button == MouseButtons.Left;
+                    if (leftClicked)
+                    {
+                        pictureBox.MouseMove += Movable_MouseMove;
+                    }
+                    mouseClickPosition = e.Location;
                 }
-                mouseClickPosition = e.Location;
             }
-            
+
         }
 
         private void Movable_MouseUp(object sender, MouseEventArgs e)
@@ -309,7 +314,7 @@ namespace CSC578_Project
 
         private void moveTimer_Tick(object sender, EventArgs e)
         {
-            
+         
             //gameObject has been set with new location already
             var control = (Control)((Timer) sender).Tag;
             var gameObject = (GameObject) control.Tag;
@@ -328,8 +333,13 @@ namespace CSC578_Project
                 control.Top -= moveYInterval;
 
             if (control.Location.X == gameObject.Position.X)
+            {
                 if (control.Location.Y == gameObject.Position.Y)
+                {
                     moveTimer.Stop();
+                    isMoving = false;
+                }
+            }
 
         }
     }

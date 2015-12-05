@@ -1,4 +1,4 @@
 {"name":"board", "width": 1400, "height": 1050, "frontImage":"\\board\\GreenGradient.png", "isBackgroundImage": true, "boundaries" :[
-	{"name":"Player1-3CardPile", "allowedOwnerIds":  1, "showBoundaryOutline":true, "width":400, "height":200, "position":{"x":200, "y":50 }, "GridPoints":[{"x":220, "y":70}, {"x":350, "y":70}, {"x":480, "y":70}]},
-	{"name": "Player2-3CardPile", "allowedOwnerIds": 2, "showBoundaryOutline":true, "width":400, "height":200, "position":{"x":200, "y":800 }, "GridPoints":[{"x":220, "y":820}, {"x":350, "y":820}, {"x":480, "y":820}]}
+	{"name":"Player1-3CardPile", "allowedOwnerIds": 1, "showBoundaryOutline":true, "width":400, "height":200, "position":{"x":200, "y":50 }, "GridPoints":[{"x":220, "y":70}, {"x":350, "y":70}, {"x":480, "y":70}]},
+	{"name":"Player2-3CardPile", "allowedOwnerIds": 2, "showBoundaryOutline":true, "width":400, "height":200, "position":{"x":200, "y":800 }, "GridPoints":[{"x":220, "y":820}, {"x":350, "y":820}, {"x":480, "y":820}]}
 ]}
