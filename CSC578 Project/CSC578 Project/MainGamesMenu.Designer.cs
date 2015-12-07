@@ -35,6 +35,7 @@
             this.btnPlay = new System.Windows.Forms.Button();
             this.btnQuit = new System.Windows.Forms.Button();
             this.lblGamesAvailable = new System.Windows.Forms.Label();
+            this.columnHeaderAuthor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // lvwListGames
@@ -43,11 +44,12 @@
             this.lvwListGames.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderNumber,
             this.columnHeaderName,
+            this.columnHeaderAuthor,
             this.columnHeaderPlayers});
             this.lvwListGames.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvwListGames.FullRowSelect = true;
             this.lvwListGames.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.lvwListGames.Location = new System.Drawing.Point(11, 57);
+            this.lvwListGames.Location = new System.Drawing.Point(3, 57);
             this.lvwListGames.MultiSelect = false;
             this.lvwListGames.Name = "lvwListGames";
             this.lvwListGames.Size = new System.Drawing.Size(713, 245);
@@ -64,7 +66,7 @@
             // columnHeaderName
             // 
             this.columnHeaderName.Text = "Name";
-            this.columnHeaderName.Width = 477;
+            this.columnHeaderName.Width = 297;
             // 
             // columnHeaderPlayers
             // 
@@ -104,6 +106,11 @@
             this.lblGamesAvailable.TabIndex = 3;
             this.lblGamesAvailable.Text = " Games Available";
             // 
+            // columnHeaderAuthor
+            // 
+            this.columnHeaderAuthor.Text = "Author";
+            this.columnHeaderAuthor.Width = 214;
+            // 
             // MainGamesMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -138,5 +145,6 @@
         private System.Windows.Forms.Button btnPlay;
         private System.Windows.Forms.Button btnQuit;
         private System.Windows.Forms.Label lblGamesAvailable;
+        private System.Windows.Forms.ColumnHeader columnHeaderAuthor;
     }
 }

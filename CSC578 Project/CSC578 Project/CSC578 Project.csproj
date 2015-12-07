@@ -84,6 +84,7 @@
     <Compile Include="Menu.Designer.cs">
       <DependentUpon>Menu.cs</DependentUpon>
     </Compile>
+    <Compile Include="GamePackageMeta.cs" />
     <Compile Include="MovableObject.cs" />
     <Compile Include="PlayingSurface.cs">
       <SubType>Form</SubType>
@@ -95,6 +96,9 @@
     <Compile Include="Position.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="games\demo\demo.meta">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="games\demo\demo.rules">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -145,9 +149,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Loading Screen.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Green Gradient.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cards\Classic\c01.png">
@@ -322,6 +323,9 @@
     <None Include="board\GreenGradient.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Green Gradient.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

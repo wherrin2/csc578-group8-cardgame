@@ -7,5 +7,6 @@ namespace CSC578_Project
         public string Path { get; set; }
         public string Name { get; set; }
         public string[] FileExtensions { get; set; }
+        public GamePackageMeta MetaInformation { get; set; }
     }
 }

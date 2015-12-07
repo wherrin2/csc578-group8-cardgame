@@ -8,6 +8,7 @@ namespace CSC578_Project
         public string BackImage { get; set; }
         public bool IsFrontImage { get; set; } = true;
         public bool IsBackgroundImage { get; set; }
+        public bool IsRotated { get; set; }
         public int LayerId { get; set; }
         
 

@@ -1,8 +1,6 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -13,6 +11,11 @@ namespace CSC578_Project
     public static class JsonParser
     {
         private static List<GameObject> gameObjects;
+
+        public static GamePackageMeta DeserializeMeta(string json)
+        {
+            return (JsonConvert.DeserializeObject<GamePackageMeta>(json));
+        }
         public static List<GameObject> Deserialize(string json, string fileKey)
         {
             gameObjects = new List<GameObject>();

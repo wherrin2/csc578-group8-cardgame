@@ -333,14 +333,70 @@ namespace CSC578_Project
                 control.Top -= moveYInterval;
 
             if (control.Location.X == gameObject.Position.X)
-            {
                 if (control.Location.Y == gameObject.Position.Y)
                 {
                     moveTimer.Stop();
                     isMoving = false;
                 }
-            }
 
+        }
+
+        private PictureBox RotatePictureBox(PictureBox pictureBox)
+        {
+            //should have a drawable to be flipped
+            var drawable = (DrawableObject) pictureBox.Tag;
+            int temp = drawable.Width;
+            drawable.Width = drawable.Height;
+            drawable.Height = temp;
+            var image = pictureBox.Image;
+            //this only works if image is double-sided when already rotated
+            image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            pictureBox.Image = image;
+            drawable.IsRotated = !drawable.IsRotated;
+            return pictureBox;
+        }
+
+        private PictureBox ShowFrontImage(PictureBox pictureBox)
+        {
+            var drawable = (DrawableObject)pictureBox.Tag;
+            if (!drawable.IsFrontImage)
+                return FlipImage(pictureBox);
+            return pictureBox;
+        }
+
+        private PictureBox ShowBackImage(PictureBox pictureBox)
+        {
+            var drawable = (DrawableObject)pictureBox.Tag;
+            if (drawable.IsFrontImage)
+                return FlipImage(pictureBox);
+            return pictureBox;
+        }
+        private PictureBox FlipImage(PictureBox pictureBox)
+        {
+            try
+            {
+                var drawable = (DrawableObject) pictureBox.Tag;
+                pictureBox.Image = drawable.IsFrontImage
+                    ? Image.FromFile(path + drawable.BackImage)
+                    : Image.FromFile(path + drawable.FrontImage);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            return pictureBox;
+        }
+
+        //Scaled images in Picture Box control seems to cause redraw issues
+        //method is a workaround to resolve redraw lag
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+                return cp;
+            }
         }
     }
 }

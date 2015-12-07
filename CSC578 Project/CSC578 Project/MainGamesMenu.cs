@@ -28,7 +28,15 @@ namespace CSC578_Project
             List<GamePackage> games = AvailableGames.GetAvailableGames();
             for (int i = 0; i < games.Count; i++)
             {
-                var item = new ListViewItem(new[] { (i + 1).ToString(), games[i].Name, "?" });
+                ListViewItem item;
+                if (games[i].MetaInformation != null)
+                {
+                    item = new ListViewItem(new[] { (i + 1).ToString(), games[i].MetaInformation.Title,games[i].MetaInformation.Author, games[i].MetaInformation.NumberOfPlayers});
+                }
+                else
+                {
+                    item = new ListViewItem(new[] {(i + 1).ToString(), games[i].Name, "?","?"});
+                }
                 item.Tag = games[i];
                 lvwListGames.Items.Add(item);
             }

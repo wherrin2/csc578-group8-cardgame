@@ -52,7 +52,14 @@ namespace CSC578_Project
                         Name = fileNameNoExtension,
                         FileExtensions = extensions
                     };
-
+                    if (File.Exists(currentPath + fileNameNoExtension + ".meta"))
+                    {
+                        using (StreamReader metaFile = File.OpenText(currentPath + fileNameNoExtension + ".meta"))
+                        {
+                            string json = metaFile.ReadToEnd();
+                            gamePackage.MetaInformation = JsonParser.DeserializeMeta(json);
+                        }
+                    }
                     games.Add(gamePackage);
                 }
 
