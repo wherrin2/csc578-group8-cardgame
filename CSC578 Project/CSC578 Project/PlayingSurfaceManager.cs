@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Collections.Generic;
+
 
 namespace CSC578_Project
 {
@@ -24,10 +19,10 @@ namespace CSC578_Project
             surface.AddGameObject(gameObject);       
         }
 
-        public static void RemoveGameObject(GameObject gameObject)
+        public static bool RemoveGameObject(GameObject gameObject)
         {
             surface.RemoveGameObject(gameObject);
-            gameObjects.Remove(gameObject);
+            return gameObjects.Remove(gameObject);
         }
 
         public static void NewGame()

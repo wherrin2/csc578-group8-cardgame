@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+
 
 namespace CSC578_Project
 {
@@ -17,8 +13,9 @@ namespace CSC578_Project
     {
         //string is the key of the class (or text file name) or subclass
         private static Dictionary<string, List<GameObject>> gameObjects;
+        private static Random randomNumber = new Random();
         //should add dictionary just for the rules logic if needed
-        
+
         /// <summary>
         /// Opens Game Package from text files and begins populating objects
         /// </summary>
@@ -52,7 +49,9 @@ namespace CSC578_Project
 
         public static List<GameObject> GetGameObjects(string key)
         {
-            return gameObjects?[key];
+            if (gameObjects != null && gameObjects.ContainsKey(key))
+                return gameObjects[key];
+            return null;
         } 
 
         /// <summary>
@@ -79,6 +78,20 @@ namespace CSC578_Project
         private static bool OpenRuleLogic(string fileName)
         {
             return true;
+        }
+
+        public static void Shuffle(List<GameObject> gameObjects)
+        {
+            var count = gameObjects.Count;
+            while (count > 1)
+            {
+                count--;
+                var next = randomNumber.Next(count + 1);
+                var temp = gameObjects[next];
+                gameObjects[next] = gameObjects[count];
+                gameObjects[count] = temp;
+
+            }
         }
     }
 

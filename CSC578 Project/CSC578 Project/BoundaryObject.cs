@@ -4,7 +4,7 @@ using System.Drawing;
 
 namespace CSC578_Project
 {
-    class BoundaryObject : GameObject
+    public class BoundaryObject : GameObject
     {
         public bool ShowBoundaryOutline { get; set; }
         public Position[] GridPoints { get; set; }
@@ -18,16 +18,16 @@ namespace CSC578_Project
         /// <summary>
         /// Checks if point is inside the boundary zone. Checks if the ID is allowed in the zone.
         /// </summary>
-        /// <param name="point">Point object was moved to</param>
+        /// <param name="position">The position object was moved to</param>
         /// <param name="requesterId">ID of the player requesting the movement</param>
         /// <returns>True if Point is allowed and inside boundary. Otherwise false.</returns>
-        public bool CheckBoundary(Point point, int requesterId)
+        public bool CheckBoundary(Position position, int requesterId)
         {
             if (allowedOwnerIds.Contains(requesterId))
             { 
-                if (point.X >= Position.X && point.X <= Position.X + Width)
+                if (position?.X >= Position.X && position?.X <= Position.X + Width)
                 {
-                    if (point.Y >= Position.Y && point.Y <= Position.Y + Height)
+                    if (position.Y >= Position.Y && position.Y <= Position.Y + Height)
                     {
                         return true;
                     }
@@ -37,17 +37,20 @@ namespace CSC578_Project
         }
         public Position GetNearestGridPoint(Position position)
         {
-            Position nearestGridPoint = new Position() {X = int.MaxValue, Y = int.MaxValue};
-            int nearestValue = int.MaxValue;
-            foreach (var gridPoint in GridPoints)
+            var nearestGridPoint = new Position() { X = int.MaxValue, Y = int.MaxValue };
+            if (position != null && GridPoints != null)
             {
-                int nextValue = Math.Abs(gridPoint.X - position.X) + Math.Abs(gridPoint.Y - position.Y);
-                if (nextValue < nearestValue)
+                var nearestValue = int.MaxValue;
+                foreach (var gridPoint in GridPoints)
                 {
-                    nearestValue = nextValue;
-                    nearestGridPoint = gridPoint;
-                }
+                    var nextValue = Math.Abs(gridPoint.X - position.X) + Math.Abs(gridPoint.Y - position.Y);
+                    if (nextValue < nearestValue)
+                    {
+                        nearestValue = nextValue;
+                        nearestGridPoint = gridPoint;
+                    }
 
+                }
             }
             return nearestGridPoint;
         }

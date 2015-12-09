@@ -1,6 +1,8 @@
 ﻿
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -14,12 +16,28 @@ namespace CSC578_Project
 
         public static GamePackageMeta DeserializeMeta(string json)
         {
-            return (JsonConvert.DeserializeObject<GamePackageMeta>(json));
+            GamePackageMeta meta = null;
+            try
+            {
+                meta = JsonConvert.DeserializeObject<GamePackageMeta>(json);
+            }
+            catch (JsonException e)
+            {
+                Debug.WriteLine((e.StackTrace));
+            }
+            return meta;
         }
         public static List<GameObject> Deserialize(string json, string fileKey)
         {
             gameObjects = new List<GameObject>();
-            ToGameObject(JToken.Parse(json), fileKey);
+            try
+            {
+                ToGameObject(JToken.Parse(json), fileKey);
+            }
+            catch (JsonException e)
+            {
+                Debug.WriteLine(e.StackTrace);
+            }
             return gameObjects;
         }
 

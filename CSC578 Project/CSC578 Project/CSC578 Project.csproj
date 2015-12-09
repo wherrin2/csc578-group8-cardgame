@@ -72,6 +72,7 @@
     <Compile Include="LoadingScreen.Designer.cs">
       <DependentUpon>LoadingScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="LogicStep.cs" />
     <Compile Include="MainGamesMenu.cs">
       <SubType>Form</SubType>
     </Compile>

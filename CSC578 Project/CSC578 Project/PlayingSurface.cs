@@ -194,13 +194,60 @@ namespace CSC578_Project
             return foundControls;
         }
 
+        private PictureBox RotatePictureBox(PictureBox pictureBox)
+        {
+            //should have a drawable to be flipped
+            var drawable = (DrawableObject) pictureBox.Tag;
+            int temp = drawable.Width;
+            drawable.Width = drawable.Height;
+            pictureBox.Width = drawable.Height;
+            drawable.Height = temp;
+            pictureBox.Height = temp;
+            var image = pictureBox.Image;
+            //this only works if image is double-sided when already rotated
+            image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            pictureBox.Image = image;
+            drawable.IsRotated = !drawable.IsRotated;
+            return pictureBox;
+        }
+
+        private void ShowFrontImage(PictureBox pictureBox)
+        {
+            var drawable = (DrawableObject)pictureBox.Tag;
+            if (!drawable.IsFrontImage)
+                FlipImage(pictureBox);
+        }
+
+        private void ShowBackImage(PictureBox pictureBox)
+        {
+            var drawable = (DrawableObject)pictureBox.Tag;
+            if (drawable.IsFrontImage)
+                FlipImage(pictureBox);
+        }
+
+        private void FlipImage(PictureBox pictureBox)
+        {
+            try
+            {
+                var drawable = (DrawableObject) pictureBox.Tag;
+                pictureBox.Image = drawable.IsFrontImage
+                    ? Image.FromFile(path + drawable.BackImage)
+                    : Image.FromFile(path + drawable.FrontImage);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+
+
         private void Movable_MouseDown(object sender, MouseEventArgs e)
         {
             //fix ID in isSelectable - should be current player's ID
             if (!isMoving)
             {
-                var pictureBox = (PictureBox) sender;
-                var movable = (MovableObject) pictureBox.Tag;
+                var pictureBox = (PictureBox)sender;
+                var movable = (MovableObject)pictureBox.Tag;
                 if (movable.IsSelectable(-1))
                 {
                     pictureBox.BringToFront();
@@ -225,8 +272,8 @@ namespace CSC578_Project
             pictureBox.MouseMove -= Movable_MouseMove;
             movable.IsSelected = false;
 
-            
-            GameObject currentObject = (GameObject) pictureBox.Tag;
+
+            GameObject currentObject = (GameObject)pictureBox.Tag;
             var hasMoved = false;
             foreach (var boundary in formBoundaries)
             {
@@ -236,8 +283,8 @@ namespace CSC578_Project
                     GameObjectHasMoved?.Invoke(currentObject, new GameObjectEventArgs()
                     {
                         CollidingObject = boundary.Tag,
-                        Position = new Position { X = pictureBox.Location.X, Y = pictureBox.Location.Y}
-                        
+                        Position = new Position { X = pictureBox.Location.X, Y = pictureBox.Location.Y }
+
                     });
                 }
             }
@@ -276,13 +323,13 @@ namespace CSC578_Project
                             break;
 
                     }
-                }             
+                }
             }
         }
 
         private void PictureBox_Paint(object sender, PaintEventArgs e)
         {
-            var pictureBox = (PictureBox) sender;
+            var pictureBox = (PictureBox)sender;
             Rectangle ee = new Rectangle(0, 0, pictureBox.Width, pictureBox.Height);
             using (Pen pen = new Pen(Color.Red, 2))
             {
@@ -314,10 +361,10 @@ namespace CSC578_Project
 
         private void moveTimer_Tick(object sender, EventArgs e)
         {
-         
+
             //gameObject has been set with new location already
-            var control = (Control)((Timer) sender).Tag;
-            var gameObject = (GameObject) control.Tag;
+            var control = (Control)((Timer)sender).Tag;
+            var gameObject = (GameObject)control.Tag;
 
             int moveXInterval = Math.Abs(gameObject.Position.X - control.Location.X) < 20 ? Math.Abs(gameObject.Position.X - control.Location.X) : 20;
             int moveYInterval = Math.Abs(gameObject.Position.Y - control.Location.Y) < 20 ? Math.Abs(gameObject.Position.Y - control.Location.Y) : 20;
@@ -339,52 +386,6 @@ namespace CSC578_Project
                     isMoving = false;
                 }
 
-        }
-
-        private PictureBox RotatePictureBox(PictureBox pictureBox)
-        {
-            //should have a drawable to be flipped
-            var drawable = (DrawableObject) pictureBox.Tag;
-            int temp = drawable.Width;
-            drawable.Width = drawable.Height;
-            drawable.Height = temp;
-            var image = pictureBox.Image;
-            //this only works if image is double-sided when already rotated
-            image.RotateFlip(RotateFlipType.Rotate90FlipNone);
-            pictureBox.Image = image;
-            drawable.IsRotated = !drawable.IsRotated;
-            return pictureBox;
-        }
-
-        private PictureBox ShowFrontImage(PictureBox pictureBox)
-        {
-            var drawable = (DrawableObject)pictureBox.Tag;
-            if (!drawable.IsFrontImage)
-                return FlipImage(pictureBox);
-            return pictureBox;
-        }
-
-        private PictureBox ShowBackImage(PictureBox pictureBox)
-        {
-            var drawable = (DrawableObject)pictureBox.Tag;
-            if (drawable.IsFrontImage)
-                return FlipImage(pictureBox);
-            return pictureBox;
-        }
-        private PictureBox FlipImage(PictureBox pictureBox)
-        {
-            try
-            {
-                var drawable = (DrawableObject) pictureBox.Tag;
-                pictureBox.Image = drawable.IsFrontImage
-                    ? Image.FromFile(path + drawable.BackImage)
-                    : Image.FromFile(path + drawable.FrontImage);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-            return pictureBox;
         }
 
         //Scaled images in Picture Box control seems to cause redraw issues

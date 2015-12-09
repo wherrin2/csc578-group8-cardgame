@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows;
 
 namespace CSC578_Project
 {
@@ -24,6 +25,25 @@ namespace CSC578_Project
         {
             games = new List<GamePackage>();
             SearchForGames();
+        }
+
+        private static void CheckForMetaInformation(string fileName, GamePackage package)
+        {
+            if (File.Exists(fileName))
+            {
+                try
+                {
+                    using (StreamReader metaFile = File.OpenText(fileName))
+                    {
+                        string json = metaFile.ReadToEnd();
+                        package.MetaInformation = JsonParser.DeserializeMeta(json);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            }
         }
 
         private static void SearchForGames()
@@ -52,14 +72,8 @@ namespace CSC578_Project
                         Name = fileNameNoExtension,
                         FileExtensions = extensions
                     };
-                    if (File.Exists(currentPath + fileNameNoExtension + ".meta"))
-                    {
-                        using (StreamReader metaFile = File.OpenText(currentPath + fileNameNoExtension + ".meta"))
-                        {
-                            string json = metaFile.ReadToEnd();
-                            gamePackage.MetaInformation = JsonParser.DeserializeMeta(json);
-                        }
-                    }
+                    
+                    CheckForMetaInformation(currentPath + fileNameNoExtension + ".meta", gamePackage);
                     games.Add(gamePackage);
                 }
 
