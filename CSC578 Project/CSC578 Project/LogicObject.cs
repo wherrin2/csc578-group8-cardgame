@@ -6,14 +6,20 @@ using System.Threading.Tasks;
 
 namespace CSC578_Project
 {
-    public class LogicStep
+    public class LogicObject
     {
-        public int Priority { get; set; }
         public string Name { get; set; }
+        public ExpressionSet[] ExpressionSet { get; set; }
+        public string InternalAction { get; set; }
+        public int Priority { get; set; }
         public bool RunOnce { get; set; }
         public bool IsDelayed { get; set; }
         public bool Loop { get; set; }
-        public LogicStep WaitFor { get; set; }
+        public LogicObject WaitFor { get; set; }
 
+        public void ProcessInternalAction()
+        {
+           
+        }
     }
 }

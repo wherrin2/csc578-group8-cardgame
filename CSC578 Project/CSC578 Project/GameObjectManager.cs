@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 
 
@@ -12,8 +13,9 @@ namespace CSC578_Project
     public static class GameObjectManager
     {
         //string is the key of the class (or text file name) or subclass
-        private static Dictionary<string, List<GameObject>> gameObjects;
-        private static Random randomNumber = new Random();
+        //private static Dictionary<string, List<GameObject>> gameObjects;
+        private static Dictionary<string, Dictionary<string, GameObject>> gameObjects; 
+        private static readonly Random randomNumber = new Random();
         //should add dictionary just for the rules logic if needed
 
         /// <summary>
@@ -26,7 +28,7 @@ namespace CSC578_Project
             try
             {
                 if (gameObjects == null)
-                    gameObjects = new Dictionary<string, List<GameObject>>();
+                    gameObjects = new Dictionary<string, Dictionary<string, GameObject>>();
                 else
                     gameObjects.Clear();
 
@@ -35,7 +37,12 @@ namespace CSC578_Project
                     if (!extension.Contains(".rules"))
                     {
                         string fileKey = extension.Substring(1);
-                        gameObjects?.Add(fileKey, OpenGameObject(package.Path + package.Name + extension, fileKey));
+                        var objects = new Dictionary<string, GameObject>();
+                        foreach (var gameObject in OpenGameObject(package.Path + package.Name + extension, fileKey))
+                        {
+                            objects.Add(gameObject.Name, gameObject);
+                        }
+                        gameObjects?.Add(fileKey, objects);
                     }
                 }
             }
@@ -50,9 +57,33 @@ namespace CSC578_Project
         public static List<GameObject> GetGameObjects(string key)
         {
             if (gameObjects != null && gameObjects.ContainsKey(key))
-                return gameObjects[key];
+            {
+                return gameObjects[key].Values.ToList();
+            }
             return null;
-        } 
+        }
+
+        public static GameObject GetGameObjectAny(string fileKey, string partialKey)
+        {
+            if (gameObjects != null && gameObjects.ContainsKey(fileKey))
+            {
+                var found = gameObjects[fileKey].Keys.First(k => k.Contains(partialKey));
+                if (found != null)
+                    return gameObjects[fileKey][found];
+            }
+            return null;
+        }
+
+        public static List<GameObject> GetGameObjectAll(string fileKey, string partialKey)
+        {
+            var foundGameObjects = new List<GameObject>();
+            if (gameObjects != null && gameObjects.ContainsKey(fileKey))
+            {
+                var foundKeys = gameObjects[fileKey].Keys.Where(k => k.Contains(partialKey)).ToList();
+                foundGameObjects.AddRange(foundKeys.Select(key => gameObjects[fileKey][key]));
+            }
+            return foundGameObjects;
+        }
 
         /// <summary>
         /// Players, Board, and Cards file can all be broken down into GameObjects
@@ -80,16 +111,16 @@ namespace CSC578_Project
             return true;
         }
 
-        public static void Shuffle(List<GameObject> gameObjects)
+        public static void Shuffle(List<GameObject> objects)
         {
-            var count = gameObjects.Count;
+            var count = objects.Count;
             while (count > 1)
             {
                 count--;
                 var next = randomNumber.Next(count + 1);
-                var temp = gameObjects[next];
-                gameObjects[next] = gameObjects[count];
-                gameObjects[count] = temp;
+                var temp = objects[next];
+                objects[next] = objects[count];
+                objects[count] = temp;
 
             }
         }

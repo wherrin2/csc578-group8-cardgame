@@ -60,6 +60,7 @@
     <Compile Include="AvailableGames.cs" />
     <Compile Include="BoundaryObject.cs" />
     <Compile Include="DrawableObject.cs" />
+    <Compile Include="ExpressionSet.cs" />
     <Compile Include="GameEngine.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjectEventArgs.cs" />
@@ -72,7 +73,7 @@
     <Compile Include="LoadingScreen.Designer.cs">
       <DependentUpon>LoadingScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="LogicStep.cs" />
+    <Compile Include="LogicObject.cs" />
     <Compile Include="MainGamesMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,10 +98,10 @@
     <Compile Include="Position.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="games\demo\demo.meta">
+    <None Include="games\idiot\idiot.meta">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="games\demo\demo.rules">
+    <None Include="games\idiot\idiot.rules">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="MainGamesMenu.resx">
@@ -125,13 +126,13 @@
     <EmbeddedResource Include="LoadingScreen.resx">
       <DependentUpon>LoadingScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="games\demo\demo.board">
+    <None Include="games\idiot\idiot.board">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="games\demo\demo.cards">
+    <None Include="games\idiot\idiot.cards">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="games\demo\demo.players">
+    <None Include="games\idiot\idiot.players">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
