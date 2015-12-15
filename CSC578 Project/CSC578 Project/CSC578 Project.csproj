@@ -60,6 +60,7 @@
     <Compile Include="AvailableGames.cs" />
     <Compile Include="BoundaryObject.cs" />
     <Compile Include="DrawableObject.cs" />
+    <Compile Include="EmbeddedAction.cs" />
     <Compile Include="ExpressionSet.cs" />
     <Compile Include="GameEngine.cs" />
     <Compile Include="GameObject.cs" />
@@ -67,13 +68,16 @@
     <Compile Include="GameObjectManager.cs" />
     <Compile Include="GamePackage.cs" />
     <Compile Include="JsonParser.cs" />
+    <Compile Include="KeyParser.cs" />
     <Compile Include="LoadingScreen.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LoadingScreen.Designer.cs">
       <DependentUpon>LoadingScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="LogicExpressionHandler.cs" />
     <Compile Include="LogicObject.cs" />
+    <Compile Include="LogicObjectHandler.cs" />
     <Compile Include="MainGamesMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,7 +102,7 @@
     <Compile Include="Position.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="games\idiot\idiot.meta">
+    <None Include="games\idiot\idiot.info">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="games\idiot\idiot.rules">

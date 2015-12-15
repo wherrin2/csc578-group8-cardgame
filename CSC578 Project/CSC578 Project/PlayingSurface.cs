@@ -18,6 +18,8 @@ namespace CSC578_Project
         //todo implement surface manager that orders layers
 
         public event EventHandler<GameObjectEventArgs> GameObjectHasMoved;
+        public event EventHandler GameHasStarted;
+        public event EventHandler GameHasBeenClosed;
 
         private bool leftClicked;
         private bool isMoving;
@@ -89,6 +91,24 @@ namespace CSC578_Project
                 }
                 else
                     control.Location = new Point(position.X, position.Y);
+            }
+        }
+
+        public void RedrawObject(GameObject gameObject)
+        {
+            List<Control> controls = FindControlsByGameObject(gameObject);
+            foreach (var control in controls)
+            {
+                if (gameObject.GetType() == typeof (MovableObject))
+                {
+                    var currentControl = (PictureBox) control;
+                    var drawable = (MovableObject) gameObject;
+                    if (drawable.IsFrontImage != drawable.IsFrontImagePrevious)
+                    {
+                        FlipImage(currentControl, drawable.IsFrontImagePrevious);
+                        drawable.IsFrontImagePrevious = drawable.IsFrontImage;
+                    }
+                }
             }
         }
 
@@ -209,30 +229,18 @@ namespace CSC578_Project
             pictureBox.Image = image;
             drawable.IsRotated = !drawable.IsRotated;
             return pictureBox;
-        }
+        } 
 
-        private void ShowFrontImage(PictureBox pictureBox)
-        {
-            var drawable = (DrawableObject)pictureBox.Tag;
-            if (!drawable.IsFrontImage)
-                FlipImage(pictureBox);
-        }
-
-        private void ShowBackImage(PictureBox pictureBox)
-        {
-            var drawable = (DrawableObject)pictureBox.Tag;
-            if (drawable.IsFrontImage)
-                FlipImage(pictureBox);
-        }
-
-        private void FlipImage(PictureBox pictureBox)
+        private void FlipImage(PictureBox pictureBox , bool isFront)
         {
             try
             {
                 var drawable = (DrawableObject) pictureBox.Tag;
-                pictureBox.Image = drawable.IsFrontImage
+                pictureBox.Image = isFront
                     ? Image.FromFile(path + drawable.BackImage)
                     : Image.FromFile(path + drawable.FrontImage);
+                pictureBox.Invalidate();
+                pictureBox.Refresh();
             }
             catch (Exception e)
             {
@@ -294,6 +302,7 @@ namespace CSC578_Project
             }
 
         }
+
         private void Movable_MouseMove(object sender, MouseEventArgs e)
         {
             var pictureBox = (PictureBox)sender;
@@ -340,6 +349,7 @@ namespace CSC578_Project
         private void PlayingSurface_FormClosing(object sender, FormClosingEventArgs e)
         {
             RemoveAllFormControls();
+            GameHasBeenClosed?.Invoke(sender, e);
         }
 
         private void RemoveAllFormControls()
@@ -398,6 +408,11 @@ namespace CSC578_Project
                 cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
                 return cp;
             }
+        }
+
+        private void PlayingSurface_Shown(object sender, EventArgs e)
+        {
+            GameHasStarted?.Invoke(sender, e);
         }
     }
 }

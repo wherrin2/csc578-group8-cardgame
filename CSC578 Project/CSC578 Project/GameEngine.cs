@@ -1,5 +1,7 @@
 ﻿
 using System.Collections.Generic;
+using System.Threading;
+using System.Windows;
 
 namespace CSC578_Project
 {
@@ -9,6 +11,7 @@ namespace CSC578_Project
         private static readonly GameEngine instance = new GameEngine();
         static GameEngine() { }
         private GameEngine() { }
+        private static List<LogicObject> logicObjects = new List<LogicObject>(); 
 
         public static GameEngine Instance
         {
@@ -19,32 +22,48 @@ namespace CSC578_Project
 
         }
 
-        public bool ValidateGamePackage(GamePackage package)
+        private bool ValidateGamePackage()
         {
-            //pass package contents to listening modules
-            return true;
+            return GameObjectManager.OpenGamePackage(currentGamePackage);
         }
 
-        public void StartGameInstance(GamePackage package)
+        public bool StartGameInstance(GamePackage package)
         {
             currentGamePackage = package;
             PlayingSurfaceManager.NewGame();
-            if (GameObjectManager.OpenGamePackage(package))
+            
+            if (ValidateGamePackage())
             {
-                //remove
-                var gameObjects = GameObjectManager.GetGameObjects("cards");
-                foreach (var obj in gameObjects)
+                logicObjects?.Clear();
+                var fileKeys = GameObjectManager.GetGameObjectFileKeys();
+                foreach (var fileKey in fileKeys)
                 {
-                    PlayingSurfaceManager.AddGameObject(obj);
+                    var gameObjects = GameObjectManager.GetGameObjects(fileKey);
+                    //hack to shuffle cards
+                    if (gameObjects?.Count > 2 && (gameObjects[0].GetType() == typeof(MovableObject) && gameObjects[1].GetType() == typeof(MovableObject)))
+                        GameObjectManager.Shuffle(gameObjects);
+
+                    foreach (var gameObject in gameObjects)
+                    {
+                        PlayingSurfaceManager.AddGameObject(gameObject);
+                    }
                 }
-                gameObjects = GameObjectManager.GetGameObjects("board");
-                foreach (var obj in gameObjects)
-                {
-                    PlayingSurfaceManager.AddGameObject(obj);
-                    
-                }
+                PlayingSurfaceManager.ShowPlayingSurface();
+                return true;
             }
-            PlayingSurfaceManager.ShowPlayingSurface();
+            return false;
+
+        }
+
+        public bool ExecuteLogicObjects()
+        {
+            var logicObjects = GameObjectManager.GetLogicObjects();
+            foreach (var logicObject in logicObjects)
+            {
+                var logicHandler = new LogicObjectHandler(logicObject);
+                logicHandler.ExecuteLogicObject();
+            }
+            return true;
         }
 
         public void ReloadGame()
@@ -52,5 +71,7 @@ namespace CSC578_Project
             if (currentGamePackage != null)
                 StartGameInstance(currentGamePackage);
         }
+
+
     }
 }

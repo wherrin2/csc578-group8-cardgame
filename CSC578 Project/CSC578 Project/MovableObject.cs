@@ -12,7 +12,8 @@ namespace CSC578_Project
 
         public bool IsSelectable(int requesterId)
         {
-            return (!IsLocked && OwnerId == requesterId);
+          //  return (!IsLocked && OwnerId == requesterId);
+            return !IsLocked;
         }
     }
 }

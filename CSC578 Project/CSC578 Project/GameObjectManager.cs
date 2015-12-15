@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -14,7 +15,8 @@ namespace CSC578_Project
     {
         //string is the key of the class (or text file name) or subclass
         //private static Dictionary<string, List<GameObject>> gameObjects;
-        private static Dictionary<string, Dictionary<string, GameObject>> gameObjects; 
+        private static Dictionary<string, Dictionary<string, GameObject>> gameObjects;
+        private static List<LogicObject> logicObjects; 
         private static readonly Random randomNumber = new Random();
         //should add dictionary just for the rules logic if needed
 
@@ -32,17 +34,28 @@ namespace CSC578_Project
                 else
                     gameObjects.Clear();
 
+                if (logicObjects == null)
+                    logicObjects = new List<LogicObject>();
+                else
+                    logicObjects.Clear();
+                
+
                 foreach (var extension in package.FileExtensions)
                 {
+                    string fileKey = extension.Substring(1);
+                    string file = package.Path + package.Name + extension;
                     if (!extension.Contains(".rules"))
                     {
-                        string fileKey = extension.Substring(1);
                         var objects = new Dictionary<string, GameObject>();
-                        foreach (var gameObject in OpenGameObject(package.Path + package.Name + extension, fileKey))
+                        foreach (var gameObject in OpenGameObjects(file, fileKey))
                         {
                             objects.Add(gameObject.Name, gameObject);
                         }
                         gameObjects?.Add(fileKey, objects);
+                    }
+                    else
+                    {
+                        logicObjects = OpenLogicObjects(file, fileKey);
                     }
                 }
             }
@@ -54,6 +67,20 @@ namespace CSC578_Project
             return true;
         }
 
+
+        public static List<LogicObject> GetLogicObjects()
+        {
+            return logicObjects;
+        } 
+
+        public static List<string> GetGameObjectFileKeys()
+        {
+            if (gameObjects != null)
+            {
+                return gameObjects.Keys.ToList();
+            }
+            return null;
+        } 
         public static List<GameObject> GetGameObjects(string key)
         {
             if (gameObjects != null && gameObjects.ContainsKey(key))
@@ -63,7 +90,7 @@ namespace CSC578_Project
             return null;
         }
 
-        public static GameObject GetGameObjectAny(string fileKey, string partialKey)
+        public static GameObject GetGameObjectAnyByKey(string fileKey, string partialKey)
         {
             if (gameObjects != null && gameObjects.ContainsKey(fileKey))
             {
@@ -74,7 +101,14 @@ namespace CSC578_Project
             return null;
         }
 
-        public static List<GameObject> GetGameObjectAll(string fileKey, string partialKey)
+        public static bool GameObjectExists(string fileKey, string key)
+        {
+            if (gameObjects.ContainsKey(fileKey))
+                return gameObjects[fileKey].ContainsKey(key);
+            return false;
+        }
+
+        public static List<GameObject> GetGameObjectAllByKey(string fileKey, string partialKey)
         {
             var foundGameObjects = new List<GameObject>();
             if (gameObjects != null && gameObjects.ContainsKey(fileKey))
@@ -85,20 +119,58 @@ namespace CSC578_Project
             return foundGameObjects;
         }
 
+        public static GameObject GetGameObjectByKey(string fileKey, string key)
+        {
+            if (gameObjects != null && gameObjects.ContainsKey(fileKey))
+                if (gameObjects[fileKey].ContainsKey(key))
+                    return gameObjects[fileKey][key];
+            return null;
+        }
+
+
         /// <summary>
         /// Players, Board, and Cards file can all be broken down into GameObjects
         /// </summary>
         /// <param name="fileName">Path to specific file (should be Player, Board, or Cards file)</param>
+        /// <param name="fileKey">File Key is the File Extension</param>
         /// <returns>True if valid file. Does not validate links to other files at this step. False if error occured.</returns>
-        private static List<GameObject> OpenGameObject(string fileName, string fileKey)
+        private static List<GameObject> OpenGameObjects(string fileName, string fileKey)
         {
-            using (StreamReader file = File.OpenText(fileName))
+            return JsonParser.Deserialize(ReadFile(fileName), fileKey);
+        }
+
+        /// <summary>
+        /// Rules file broken down into logic objects
+        /// </summary>
+        /// <param name="fileName">Path to specific file</param>
+        /// <param name="fileKey">File Key is the File Extension</param>
+        /// <returns>List of Logic Objects</returns>
+        private static List<LogicObject> OpenLogicObjects(string fileName, string fileKey)
+        {
+            return JsonParser.DeserializeLogic(ReadFile(fileName), fileKey);
+        }
+
+        /// <summary>
+        /// Reads file into a string
+        /// </summary>
+        /// <param name="fileName">File to read into string to try and deserialize</param>
+        /// <returns>string ready to deserialize</returns>
+        private static string ReadFile(string fileName)
+        {
+            var json = "";
+            try
             {
-                string json = file.ReadToEnd();
-                return JsonParser.Deserialize(json, fileKey);
-                //should check objects and entries for array. Determine game objects based on if keys exist.
-                //is_movable, front_image, allowed_owner_ids would establish the various objects if the keys existed and not false or null 
+                using (StreamReader file = File.OpenText(fileName))
+                {
+                    json = file.ReadToEnd();
+                }
             }
+            catch (IOException e)
+            {
+                Debug.WriteLine(e.StackTrace);
+            }
+
+            return json;
         }
 
         /// <summary>

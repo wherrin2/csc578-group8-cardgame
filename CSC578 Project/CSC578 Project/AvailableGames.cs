@@ -73,7 +73,7 @@ namespace CSC578_Project
                         FileExtensions = extensions
                     };
                     
-                    CheckForMetaInformation(currentPath + fileNameNoExtension + ".meta", gamePackage);
+                    CheckForMetaInformation(currentPath + fileNameNoExtension + ".info", gamePackage);
                     games.Add(gamePackage);
                 }
 

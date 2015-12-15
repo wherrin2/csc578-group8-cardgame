@@ -49,6 +49,7 @@
             this.Name = "PlayingSurface";
             this.Text = "PlayingSurface";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PlayingSurface_FormClosing);
+            this.Shown += new System.EventHandler(this.PlayingSurface_Shown);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PlayingSurface_KeyPress);
             this.ResumeLayout(false);
 
