@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -26,6 +27,11 @@ namespace CSC578_Project
         private Point mouseClickPosition;
         private List<Control> formControls = new List<Control>();
         private List<Control> formBoundaries = new List<Control>(); 
+        private List<GameObject> players = new List<GameObject>();
+        private int currentPlayerIndex = 0; //stored as index to list
+        private bool gameStarted = true;
+        
+         
         private string path = AppDomain.CurrentDomain.BaseDirectory + @"\";
 
         public PlayingSurface()
@@ -51,6 +57,10 @@ namespace CSC578_Project
             else if (typeof(DrawableObject) == type)
             {
                 CreateDrawableObject((DrawableObject)gameObject);
+            }
+            else if (gameObject.Name.ToLower().StartsWith("player"))
+            {
+                players.Add(gameObject);
             }
 
         }
@@ -91,6 +101,9 @@ namespace CSC578_Project
                 }
                 else
                     control.Location = new Point(position.X, position.Y);
+
+                var boundary = GetBoundaryGameObjectIntersectsWith((PictureBox) control);
+                HandleBoundaryLogicAction(boundary, gameObject, "delete()");
             }
         }
 
@@ -110,6 +123,37 @@ namespace CSC578_Project
                     }
                 }
             }
+        }
+
+        public void ShowAllowSwapsButton()
+        {
+            btnSwaps.Location = new Point(Width/2, Height/2);
+            btnSwaps.Visible = true;
+            gameStarted = false;
+        }
+
+        public void AddLogicActionToBoundaries(LogicAction logicAction)
+        {
+            foreach (var control in formBoundaries)
+            {
+                var boundary = (BoundaryObject) ((PictureBox) control).Tag;
+                foreach (var boundaryRule in logicAction.BoundaryRules)
+                {
+                    if (boundary.Name.Equals(boundaryRule))
+                        boundary.AddLogicAction(logicAction);
+                }
+            }   
+        }
+
+        private BoundaryObject GetBoundaryGameObjectIntersectsWith(PictureBox pictureBox)
+        {
+            BoundaryObject boundary = null;
+            foreach (var control in formBoundaries)
+            {
+                if (control.Bounds.IntersectsWith(pictureBox.Bounds))
+                   return (BoundaryObject) ((PictureBox) control).Tag;
+            }
+            return boundary;
         }
 
         private void CreateBoundaryObject(BoundaryObject boundary)
@@ -241,6 +285,7 @@ namespace CSC578_Project
                     : Image.FromFile(path + drawable.FrontImage);
                 pictureBox.Invalidate();
                 pictureBox.Refresh();
+                pictureBox.BringToFront();
             }
             catch (Exception e)
             {
@@ -248,28 +293,92 @@ namespace CSC578_Project
             }
         }
 
+        private bool HandleBoundaryLogicAction(BoundaryObject boundary, GameObject gameObject, string eventString)
+        {
+            var logicActions = boundary.GetLogicActions();
+            var handledAny = false;
+            if (logicActions.Count > 0)
+            {
+               var actions = logicActions.FindAll(x => x.Event.ToLower().Equals(eventString.ToLower()));
+                foreach (var action in actions)
+                {
+                    var logicObject = new LogicObjectHandler(action.Actions, gameObject);
+                    if (logicObject.ExecuteLogicObject())
+                        handledAny = true;
+                }
+            }
+            return handledAny;
+        }
+
 
         private void Movable_MouseDown(object sender, MouseEventArgs e)
         {
-            //fix ID in isSelectable - should be current player's ID
-            if (!isMoving)
+            try
             {
-                var pictureBox = (PictureBox)sender;
-                var movable = (MovableObject)pictureBox.Tag;
-                if (movable.IsSelectable(-1))
+                //fix ID in isSelectable - should be current player's ID
+                if (!isMoving)
                 {
-                    pictureBox.BringToFront();
-                    movable.IsSelected = true;
+                    var pictureBox = (PictureBox) sender;
+                    var movable = (MovableObject) pictureBox.Tag;
 
                     leftClicked = e.Button == MouseButtons.Left;
-                    if (leftClicked)
+
+                    if (movable.IsSelectable(players[currentPlayerIndex].Id))
                     {
-                        pictureBox.MouseMove += Movable_MouseMove;
+                        pictureBox.BringToFront();
+                        movable.IsSelected = true;
+
+                       
+                        if (leftClicked)
+                        {
+                            pictureBox.MouseMove += Movable_MouseMove;
+                        }
+                        mouseClickPosition = e.Location;
                     }
-                    mouseClickPosition = e.Location;
+
+                    if (leftClicked && gameStarted)
+                    {
+                        var boundary = GetBoundaryGameObjectIntersectsWith(pictureBox);
+                        HandleBoundaryLogicAction(boundary, movable, "select()");
+                    }
+
+
                 }
             }
+            catch (Exception error)
+            {
+                Debug.WriteLine(error.StackTrace);
+            }
 
+        }
+
+        private void NextPlayerTurn()
+        {
+            currentPlayerIndex++;
+            if (players.Count <= currentPlayerIndex)
+                currentPlayerIndex = 0;
+            DisplayPlayerTurn();
+        }
+
+        private void DisplayPlayerTurn()
+        {
+            try
+            {
+                Text = "It is " + players[currentPlayerIndex].Name + "'s turn. Id = " + players[currentPlayerIndex].Id;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+            }
+        }
+
+        private void PreviousPlayerTurn()
+        {
+            currentPlayerIndex--;
+            if (players.Count < 0)
+                currentPlayerIndex = players.Count - 1;
+
+            DisplayPlayerTurn();
         }
 
         private void Movable_MouseUp(object sender, MouseEventArgs e)
@@ -294,6 +403,8 @@ namespace CSC578_Project
                         Position = new Position { X = pictureBox.Location.X, Y = pictureBox.Location.Y }
 
                     });
+ 
+                    //NextPlayerTurn();
                 }
             }
             if (!hasMoved)
@@ -413,6 +524,14 @@ namespace CSC578_Project
         private void PlayingSurface_Shown(object sender, EventArgs e)
         {
             GameHasStarted?.Invoke(sender, e);
+        }
+
+        private void btnSwaps_Click(object sender, EventArgs e)
+        {
+            PlayingSurfaceManager.DisableSwaps();
+            btnSwaps.BringToFront();
+            btnSwaps.Visible = false;
+            gameStarted = true;
         }
     }
 }

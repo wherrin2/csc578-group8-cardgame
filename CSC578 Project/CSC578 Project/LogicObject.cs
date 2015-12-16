@@ -7,6 +7,7 @@ namespace CSC578_Project
         public string Name { get; set; }
         public ExpressionSet[] ExpressionSet { get; set; }
         public string EmbeddedAction { get; set; }
+        public bool StartUp { get; set; }
 
     }
 }

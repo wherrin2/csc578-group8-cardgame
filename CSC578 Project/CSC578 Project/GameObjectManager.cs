@@ -16,7 +16,8 @@ namespace CSC578_Project
         //string is the key of the class (or text file name) or subclass
         //private static Dictionary<string, List<GameObject>> gameObjects;
         private static Dictionary<string, Dictionary<string, GameObject>> gameObjects;
-        private static List<LogicObject> logicObjects; 
+        private static List<LogicObject> logicObjects;
+        private static List<LogicAction> logicActions; 
         private static readonly Random randomNumber = new Random();
         //should add dictionary just for the rules logic if needed
 
@@ -56,6 +57,7 @@ namespace CSC578_Project
                     else
                     {
                         logicObjects = OpenLogicObjects(file, fileKey);
+                        logicActions = JsonParser.GetLogicActions();
                     }
                 }
             }
@@ -71,6 +73,11 @@ namespace CSC578_Project
         public static List<LogicObject> GetLogicObjects()
         {
             return logicObjects;
+        }
+
+        public static List<LogicAction> GetLogicActions()
+        {
+            return logicActions;
         } 
 
         public static List<string> GetGameObjectFileKeys()

@@ -13,7 +13,8 @@ namespace CSC578_Project
     public static class JsonParser
     {
         private static List<GameObject> gameObjects;
-        private static List<LogicObject> logicObjects; 
+        private static List<LogicObject> logicObjects;
+        private static List<LogicAction> logicActions;  
 
         public static GamePackageMeta DeserializeMeta(string json)
         {
@@ -45,15 +46,22 @@ namespace CSC578_Project
         public static List<LogicObject> DeserializeLogic(string json, string fileKey)
         {
             logicObjects = new List<LogicObject>();
+            logicActions = new List<LogicAction>();
             try
             {
                 ParseToObjects(JToken.Parse(json), fileKey);
             }
             catch (JsonException e)
             {
+                Debug.WriteLine(e.Message);
                 Debug.WriteLine(e.StackTrace);
             }
             return logicObjects;
+        }
+
+        public static List<LogicAction> GetLogicActions()
+        {
+            return logicActions;
         } 
 
         private static void ParseToObjects(JToken token, string key)
@@ -64,6 +72,7 @@ namespace CSC578_Project
                     var isMovable = token["isMovable"];
                     var isDrawable = token["frontImage"];
                     var isBoundary = token["allowedOwnerIds"];
+                    var isId = token["id"];
                    
                     if (isBoundary != null)
                     {
@@ -75,26 +84,42 @@ namespace CSC578_Project
                     {
                         var movable = JsonConvert.DeserializeObject<MovableObject>(token.ToString());
                         movable.Name = key + "." + movable.Name;
+                        movable.IsFrontImagePrevious = movable.IsFrontImage;
                         gameObjects.Add(movable);
                     }
                     else if (isDrawable != null)
                     {
                         var drawable = JsonConvert.DeserializeObject<DrawableObject>(token.ToString());
                         drawable.Name = key + "." + drawable.Name;
+                        drawable.IsFrontImagePrevious = drawable.IsFrontImage;
                         gameObjects.Add(drawable);
+                    }
+                    else if (isId != null)
+                    {
+                        var gameObject = JsonConvert.DeserializeObject <GameObject>(token.ToString());
+                        gameObject.Name = key + "." + gameObject.Name;
+                        gameObjects.Add(gameObject);
                     }
                     else
                     {
                         //possible matches for .rules files
                         var isExpressionSet = token["expressionSet"];
                         var isEmbeddedAction = token["embeddedAction"];
-                        var isRunOnce = token["runOnce"];
-                        var priority = token["priority"];
-                        if (isExpressionSet != null || isEmbeddedAction != null || isRunOnce != null || priority != null)
+                        var isAction = token["event"]; 
+                        if (isExpressionSet != null || isEmbeddedAction != null || isAction != null)
                         {
-                            var logic = JsonConvert.DeserializeObject<LogicObject>(token.ToString());
-                            logic.Name = key + "." + logic.Name;
-                            logicObjects.Add(logic);
+
+                            if (isAction != null)
+                            {
+                                var logic = JsonConvert.DeserializeObject<LogicAction>(token.ToString());
+                                logicActions.Add(logic);
+                            }
+                            else
+                            {
+                                var logic = JsonConvert.DeserializeObject<LogicObject>(token.ToString());
+                                logic.Name = key + "." + logic.Name;
+                                logicObjects.Add(logic);
+                            }
                         }
                     }
 

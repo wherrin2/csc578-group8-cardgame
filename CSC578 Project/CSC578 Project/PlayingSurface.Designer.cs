@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.moveTimer = new System.Windows.Forms.Timer(this.components);
+            this.btnSwaps = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // moveTimer
@@ -37,12 +38,24 @@
             this.moveTimer.Interval = 10;
             this.moveTimer.Tick += new System.EventHandler(this.moveTimer_Tick);
             // 
+            // btnSwaps
+            // 
+            this.btnSwaps.Location = new System.Drawing.Point(299, 227);
+            this.btnSwaps.Name = "btnSwaps";
+            this.btnSwaps.Size = new System.Drawing.Size(116, 44);
+            this.btnSwaps.TabIndex = 0;
+            this.btnSwaps.Text = "Ready to Play!";
+            this.btnSwaps.UseVisualStyleBackColor = true;
+            this.btnSwaps.Visible = false;
+            this.btnSwaps.Click += new System.EventHandler(this.btnSwaps_Click);
+            // 
             // PlayingSurface
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(790, 542);
+            this.Controls.Add(this.btnSwaps);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
@@ -58,5 +71,6 @@
         #endregion
 
         private System.Windows.Forms.Timer moveTimer;
+        private System.Windows.Forms.Button btnSwaps;
     }
 }

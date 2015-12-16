@@ -55,14 +55,30 @@ namespace CSC578_Project
 
         }
 
-        public bool ExecuteLogicObjects()
+        public bool ExecuteLogicActions()
+        {
+             var logicActions = GameObjectManager.GetLogicActions();
+
+            foreach (var action in logicActions)
+            {
+               PlayingSurfaceManager.AddLogicActionToPlayingSurface(action);
+            }
+            return true;
+        }
+
+        public bool ExecuteStartupLogicObjects()
         {
             var logicObjects = GameObjectManager.GetLogicObjects();
             foreach (var logicObject in logicObjects)
             {
-                var logicHandler = new LogicObjectHandler(logicObject);
-                logicHandler.ExecuteLogicObject();
+                if (logicObject.StartUp)
+                {
+                    var logicHandler = new LogicObjectHandler(logicObject);
+                    logicHandler.ExecuteLogicObject();
+                }
             }
+            logicObjects.Clear();
+            ExecuteLogicActions();
             return true;
         }
 

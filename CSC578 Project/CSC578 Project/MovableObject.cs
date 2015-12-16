@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace CSC578_Project
 {
@@ -10,10 +12,12 @@ namespace CSC578_Project
         public int Rank { get; set; }
         public int Value { get; set; }
 
+        [JsonExtensionData]
+        private IDictionary<string, JToken> _additionalData;
+
         public bool IsSelectable(int requesterId)
         {
-          //  return (!IsLocked && OwnerId == requesterId);
-            return !IsLocked;
+            return (!IsLocked && OwnerId == requesterId);
         }
     }
 }

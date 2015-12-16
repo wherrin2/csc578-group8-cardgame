@@ -8,7 +8,24 @@ namespace CSC578_Project
     {
         public bool ShowBoundaryOutline { get; set; }
         public Position[] GridPoints { get; set; }
+        private List<LogicAction> logicActions = new List<LogicAction>();
         private List<int> allowedOwnerIds = new List<int>();
+
+
+        public void AddLogicAction(LogicAction action )
+        {
+            logicActions.Add(action);
+        }
+
+        public void RemoveLogicAction(LogicAction action)
+        {
+            logicActions.Remove(action);
+        }
+
+        public List<LogicAction> GetLogicActions()
+        {
+            return logicActions;
+        }
 
         public void AddOwnerId(int id)
         {

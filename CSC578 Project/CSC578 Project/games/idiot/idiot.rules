@@ -1,23 +1,33 @@
 { "expressionSetup":[	
-	{"3CardPilesNotFlipped":[ {"expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player1-3CardPile, 220,70)"},
-		{"name":"Player1Card2", "expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player1-3CardPile,  350,70)"},
-		{"name":"Player1Card3", "expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player1-3CardPile, 480,70)"},
-		{"name":"Player2Card1", "expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player2-3CardPile, 220,790)"},
-		{"name":"Player2Card2", "expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player2-3CardPile, 350,790)"},
-		{"name":"Player2Card3", "expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player2-3CardPile, 480,790)"}
+	{"3CardPilesNotFlipped":[ {"expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player1-3CardPile, 220,70)", "startup": true},
+		{"name":"Player1Card2", "expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player1-3CardPile,  350,70)", "startup": true},
+		{"name":"Player1Card3", "expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player1-3CardPile, 480,70)", "startup": true},
+		{"name":"Player2Card1", "expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player2-3CardPile, 220,790)", "startup": true},
+		{"name":"Player2Card2", "expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player2-3CardPile, 350,790)", "startup": true},
+		{"name":"Player2Card3", "expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player2-3CardPile, 480,790)", "startup": true}
 	]},
-	{"3cardPilesFlipped":[ {"name":"Player1Card1", "expressionSet":[{"type": "bool", "expression":"Cards.cards.Current.IsLocked = true"}, {"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = false"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player1-3CardPile, 220,70)"},
-		{"name":"Player1Card2", "expressionSet":[{"type": "bool", "expression":"Cards.cards.Current.IsLocked = true"}, {"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = false"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player1-3CardPile, 350,70)"},
-		{"name":"Player1Card3", "expressionSet":[{"type": "bool", "expression":"Cards.cards.Current.IsLocked = true"}, {"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = false"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player1-3CardPile, 480,70)"},
-		{"name":"Player2Card1", "expressionSet":[{"type": "bool", "expression":"Cards.cards.Current.IsLocked = true"}, {"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = false"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player2-3CardPile, 220,790)"},
-		{"name":"Player2Card2", "expressionSet":[{"type": "bool", "expression":"Cards.cards.Current.IsLocked = true"}, {"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = false"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player2-3CardPile, 350,790)"},
-		{"name":"Player2Card3", "expressionSet":[{"type": "bool", "expression":"Cards.cards.Current.IsLocked = true"}, {"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = false"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player2-3CardPile, 480,790)"}
+	{"3cardPilesFlipped":[ {"name":"Player1Card1", "expressionSet":[{"type": "bool", "expression":"Cards.cards.Current.IsLocked = true"}, {"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = false"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player1-3CardPile, 220,70)", "startup": true},
+		{"name":"Player1Card2", "expressionSet":[{"type": "bool", "expression":"Cards.cards.Current.IsLocked = true"}, {"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = false"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player1-3CardPile, 350,70)", "startup": true},
+		{"name":"Player1Card3", "expressionSet":[{"type": "bool", "expression":"Cards.cards.Current.IsLocked = true"}, {"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = false"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player1-3CardPile, 480,70)", "startup": true},
+		{"name":"Player2Card1", "expressionSet":[{"type": "bool", "expression":"Cards.cards.Current.IsLocked = true"}, {"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = false"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player2-3CardPile, 220,790)", "startup": true},
+		{"name":"Player2Card2", "expressionSet":[{"type": "bool", "expression":"Cards.cards.Current.IsLocked = true"}, {"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = false"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player2-3CardPile, 350,790)", "startup": true},
+		{"name":"Player2Card3", "expressionSet":[{"type": "bool", "expression":"Cards.cards.Current.IsLocked = true"}, {"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = false"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player2-3CardPile, 480,790)", "startup": true}
 	]},
-	{"DealToPlayerHands" :[ {"expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player1-Hand, 620,70)"},
-		{"name":"Player1Card2", "expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player1-Hand, 650,70)"},
-		{"name":"Player1Card3", "expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player1-Hand, 680,70)"},
-		{"name":"Player2Card1", "expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player2-Hand, 620,790)"},
-		{"name":"Player2Card2", "expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck,board.boundaries.Player2-Hand, 650,790)"},
-		{"name":"Player2Card3", "expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck,board.boundaries.Player2-Hand, 680,790)"}
-	]}
-]}
+	{"DealToPlayerHands" :[ {"expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player1-Hand, 620,70)", "startup": true},
+		{"name":"Player1Card2", "expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player1-Hand, 650,70)", "startup": true},
+		{"name":"Player1Card3", "expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player1-Hand, 680,70)", "startup": true},
+		{"name":"Player2Card1", "expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck, board.boundaries.Player2-Hand, 620,790)", "startup": true},
+		{"name":"Player2Card2", "expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck,board.boundaries.Player2-Hand, 650,790)", "startup": true},
+		{"name":"Player2Card3", "expressionSet":[{"type" :"bool", "expression":"Cards.cards.Current.IsFrontImage = true"}], "embeddedAction": "Deal(board.boundaries.Deck,board.boundaries.Player2-Hand, 680,790)", "startup": true}
+	]},
+	{"name":"AllowSwaps", "embeddedAction":"AllowSwaps()", "startup": true}
+	],
+	"rules":[
+		{"event": "Select()", "loop": true, "priority":9, "boundaryRules": ["board.boundaries.Deck"],
+		"actions":{"name":"MoveToPileAndChangeID", "embeddedAction": "Move(695, 420)", "expressionSet":[{"type":"bool", "expression": "Cards.cards.Current.IsFrontImage = true"}, {"type":"int", "expression": "Cards.cards.Current.OwnerID = 1"}]}},
+		
+		{"event": "Delete()", "loop":true, "boundaryRules": ["board.boundaries.CardPile"], 
+		"actions":{"name":"BurnCard", "embeddedAction": "Delete(Cards.cards.All, Cards.cards.Current.Rank, cards.cards.TenofClubs.Rank)", "expressionSet":[{"type":"int", "expression": ""}]}}
+		
+	]
+}

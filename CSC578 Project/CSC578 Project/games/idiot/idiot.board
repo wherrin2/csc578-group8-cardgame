@@ -4,5 +4,5 @@
 	{"name":"Player1-Hand", "ownerId": 1, "allowedOwnerIds": 1, "showBoundaryOutline":true, "width":500, "height":200, "position":{"x":600, "y":50 }, "GridPoints":[{"x":620, "y":70}, {"x":650, "y":70}, {"x":680, "y":70},{"x":710, "y":70}, {"x":740, "y":70}, {"x":770, "y":70}, {"x":800, "y":70},{"x":830, "y":70} , {"x":860, "y":70}, {"x":890, "y":70}, {"x":920, "y":70}]},
 	{"name":"Player2-Hand", "ownerId": 2, "allowedOwnerIds": 2, "showBoundaryOutline":true, "width":500, "height":200, "position":{"x":600, "y":770 }, "GridPoints":[{"x":620, "y":790}, {"x":650, "y":790}, {"x":680, "y":790},{"x":710, "y":790}, {"x":740, "y":790}, {"x":770, "y":790}, {"x":800, "y":790},{"x":830, "y":790} , {"x":860, "y":790}, {"x":890, "y":790}, {"x":920, "y":790}]},
 	{"name":"Deck", "ownerId": 0, "allowedOwnerIds": 0, "showBoundaryOutline":true, "width":150, "height":200, "position":{"x":525, "y":400 }, "GridPoints":[{"x":545, "y":420}]},
-	{"name":"CardPile", "allowedOwnerIds": [1,2], "showBoundaryOutline":true, "width":150, "height":200, "position":{"x":675, "y":400 }, "GridPoints":[{"x":695, "y":420}]}
+	{"name":"CardPile", "ownerId": 0,  "allowedOwnerIds": [1,2], "showBoundaryOutline":true, "width":150, "height":200, "position":{"x":675, "y":400 }, "GridPoints":[{"x":695, "y":420}]}
 ]}
